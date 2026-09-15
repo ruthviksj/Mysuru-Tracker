@@ -1,0 +1,12 @@
+{
+  "name": "mysuru-tracker",
+  "version": "1.0.0",
+  "description": "Find your Ganesha - Mysuru Ganeshas, community favourites, and neighbourhood celebrations",
+  "private": true,
+  "scripts": {
+    "test": "echo \"No tests configured\""
+  },
+  "dependencies": {
+    "@vercel/analytics": "^1.4.1"
+  }
+}
