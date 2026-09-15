@@ -489,7 +489,7 @@ h1 span { color: var(--brick); font-style: italic; }
 .dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; background: var(--brick); }
 .dot.temple { background: var(--gold); }
 .dot.apartment { background: var(--green); }
-.dot.other { background: var(--rose); }
+.dot.other { background: #2f7ca6; }
 
 /* Leaflet control theming */
 .leaflet-control-zoom { border: 0 !important; box-shadow: var(--shadow-md) !important; border-radius: var(--r-sm) !important; overflow: hidden; }
@@ -619,6 +619,10 @@ h1 span { color: var(--brick); font-style: italic; }
 }
 .rankline { color: var(--gold); font-weight: 800; font-size: 13px; }
 .detail-about { margin: 0; color: var(--ink-soft); font-size: 14.5px; line-height: 1.6; }
+.added-by { display: inline-flex; align-items: center; gap: 4px; margin: 10px 0 0; padding: 4px 11px; border-radius: 999px; background: var(--cream); color: var(--ink-soft); font-size: 12.5px; font-weight: 600; }
+.added-by-ic { color: var(--saffron); }
+.added-by a { color: var(--brick); text-decoration: none; }
+.added-by a:hover { text-decoration: underline; }
 .detail-block { margin-top: 20px; }
 .detail-block h3 { margin: 0 0 8px; font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--brick); }
 .detail-block p { margin: 0; color: var(--ink-soft); font-size: 14px; line-height: 1.5; }
@@ -1062,3 +1066,62 @@ footer .owner { color: #b79d88; font-size: 13px; }
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; scroll-behavior: auto; }
 }
+
+/* Visarjan page */
+.vis-page { max-width: 980px; }
+.vis-summary { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 8px 0 30px; }
+.vis-info { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: center; border: 1px solid var(--line); border-radius: var(--r-md); background: #fff; padding: 16px 18px; box-shadow: var(--shadow-sm); }
+.vis-ic { font-size: 22px; }
+.vis-info small { display: block; color: var(--muted); font-size: 12px; font-weight: 600; }
+.vis-info strong { display: block; font-family: var(--serif); font-weight: 600; font-size: 17px; margin-top: 2px; }
+.vis-h { font-family: var(--serif); font-weight: 600; font-size: clamp(20px, 2.4vw, 26px); margin: 30px 0 16px; }
+.vis-zones { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+.vis-zone { border: 1px solid var(--line); border-radius: var(--r-md); background: #fff; padding: 16px 18px; box-shadow: var(--shadow-sm); }
+.vis-znum { font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #2f7ca6; margin-bottom: 10px; }
+.vis-zone ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
+.vis-zone li { font-size: 14.5px; color: var(--ink-soft); line-height: 1.4; }
+.vis-routes { display: grid; gap: 14px; }
+.vis-route { position: relative; border: 1px solid var(--line); border-radius: var(--r-md); background: #fff; padding: 18px 20px 18px 58px; box-shadow: var(--shadow-sm); }
+.vis-rnum { position: absolute; left: 16px; top: 18px; width: 30px; height: 30px; display: grid; place-items: center; border-radius: 50%; background: linear-gradient(180deg, #bfe0ef, #8ec6de); color: #1e5570; font-weight: 800; }
+.vis-route ol { margin: 0; padding: 0; list-style: none; display: grid; }
+.vis-route ol li { display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid var(--line); font-size: 14.5px; }
+.vis-route ol li:first-child { border-top: 0; padding-top: 0; }
+.vis-route ol li span { color: var(--ink); }
+.vis-route ol li small { color: var(--muted); white-space: nowrap; font-weight: 600; }
+.vis-contact { display: inline-block; margin-top: 12px; color: var(--brick); font-weight: 700; font-size: 14px; }
+.vis-contact:hover { text-decoration: underline; }
+@media (max-width: 560px) { .vis-summary { grid-template-columns: 1fr; } .vis-route ol li { flex-direction: column; gap: 2px; } .vis-route ol li small { white-space: normal; } }
+
+/* Visarjan as a nav button + popup */
+.nav-btn {
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  border: 0;
+  background: transparent;
+  border-radius: var(--r-sm);
+  color: var(--ink-soft);
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background .18s ease, color .18s ease;
+}
+.nav-btn:hover { background: rgba(168, 60, 34, .07); color: var(--brick); }
+.vis-modal {
+  position: relative;
+  width: min(760px, 100%);
+  max-height: 90vh;
+  overflow: auto;
+  background: linear-gradient(180deg, #fff, #fdf7ee);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 30px clamp(20px, 4vw, 34px);
+  animation: rise .28s cubic-bezier(.2, .7, .2, 1) both;
+}
+.vis-modal .eyebrow { margin-bottom: 8px; }
+.vis-modal h2 { font-family: var(--serif); font-weight: 600; font-size: clamp(23px, 3vw, 30px); line-height: 1.12; margin: 0 0 8px; }
+.vis-modal h2 span { color: var(--brick); }
+.vis-modal-lede { margin: 0 0 22px; color: var(--ink-soft); font-size: 15px; line-height: 1.55; }
+.vis-modal .vis-h { font-size: 18px; margin: 24px 0 14px; }
+.vis-modal .vis-summary { margin: 0 0 4px; }

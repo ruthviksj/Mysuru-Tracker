@@ -29,7 +29,7 @@ function mapRow(r) {
     status: r.verified ? "Community verified" : "Pending verification",
     photo: r.photo_url || "", about: r.about || "", timings: r.timings || "",
     organiser: r.organiser || "", visarjan: r.visarjan || "", access: r.access || "",
-    social: r.social || "", events: Array.isArray(r.events) ? r.events : []
+    social: r.social || "", addedBy: r.added_by || "", events: Array.isArray(r.events) ? r.events : []
   };
 }
 async function loadGaneshas() {
@@ -74,6 +74,18 @@ const STR = {
     brand_tag: "MYSURU, TOGETHER.",
     nav_explore: "Explore Ganeshas",
     nav_favourites: "Community favourites",
+    nav_visarjan: "Visarjan",
+    vis_eyebrow: "Eco-friendly immersion · 2026",
+    vis_headline: "Where to immerse your <span>Ganesha.</span>",
+    vis_lede: "Free water tanker vehicles from the City Corporation. Please immerse clay idols in these tankers, not in lakes or wells.",
+    vis_days: "Immersion days",
+    vis_days_val: "September 14, 16 & 18",
+    vis_time: "Time",
+    vis_time_val: "6 PM to 11 PM",
+    vis_fixed: "Tanker points, zone by zone",
+    vis_routes: "Moving tanker routes",
+    vis_zone: "Zone",
+    vis_contact: "Contact",
     season: "Mysuru · 2026",
     nav_add: "+ Add a Ganesha",
     foot_made: "Made with ♡ for Mysuru.",
@@ -97,7 +109,7 @@ const STR = {
     type_Community: "Community",
     type_Temple: "Temple",
     type_Apartment: "Apartment",
-    type_Other: "Other",
+    type_Other: "Visarjan tank",
     sort_label: "Sort",
     sort_popular: "Most loved",
     sort_newest: "Newest",
@@ -175,6 +187,9 @@ const STR = {
     opt_private: "Residents / private access",
     f_social: "Instagram or social page",
     f_social_ph: "instagram.com/yourganesha, @handle, or any link",
+    f_addedby: "Added by",
+    f_addedby_ph: "Your name or @handle",
+    added_by_label: "Added by",
     f_confirm2: "I have permission to share this public location.",
     f_cancel: "Cancel",
     f_submit: "Add my Ganesha",
@@ -203,6 +218,18 @@ const STR = {
     brand_tag: "ಮೈಸೂರು, ಒಟ್ಟಿಗೆ.",
     nav_explore: "ಗಣೇಶಗಳನ್ನು ಅನ್ವೇಷಿಸಿ",
     nav_favourites: "ಸಮುದಾಯದ ಮೆಚ್ಚುಗೆಗಳು",
+    nav_visarjan: "ವಿಸರ್ಜನೆ",
+    vis_eyebrow: "ಪರಿಸರ ಸ್ನೇಹಿ ವಿಸರ್ಜನೆ · 2026",
+    vis_headline: "ನಿಮ್ಮ <span>ಗಣೇಶನನ್ನು</span> ಎಲ್ಲಿ ವಿಸರ್ಜಿಸಬೇಕು.",
+    vis_lede: "ಪಾಲಿಕೆಯಿಂದ ಉಚಿತ ನೀರಿನ ಟ್ಯಾಂಕರ್ ವಾಹನಗಳು. ಮಣ್ಣಿನ ಮೂರ್ತಿಗಳನ್ನು ಕೆರೆ ಅಥವಾ ಬಾವಿಗಳಲ್ಲಿ ಅಲ್ಲ, ಈ ಟ್ಯಾಂಕರ್‌ಗಳಲ್ಲೇ ವಿಸರ್ಜಿಸಿ.",
+    vis_days: "ವಿಸರ್ಜನೆ ದಿನಗಳು",
+    vis_days_val: "ಸೆಪ್ಟೆಂಬರ್ 14, 16 ಮತ್ತು 18",
+    vis_time: "ಸಮಯ",
+    vis_time_val: "ಸಂಜೆ 6ರಿಂದ ರಾತ್ರಿ 11ರವರೆಗೆ",
+    vis_fixed: "ವಲಯವಾರು ಟ್ಯಾಂಕರ್ ಸ್ಥಳಗಳು",
+    vis_routes: "ಸಂಚಾರಿ ಟ್ಯಾಂಕರ್ ಮಾರ್ಗಗಳು",
+    vis_zone: "ವಲಯ",
+    vis_contact: "ಸಂಪರ್ಕ",
     season: "ಮೈಸೂರು · 2026",
     nav_add: "+ ಗಣೇಶನನ್ನು ಸೇರಿಸಿ",
     foot_made: "ಮೈಸೂರಿಗಾಗಿ ♡ ಇಂದ ಮಾಡಲಾಗಿದೆ.",
@@ -226,7 +253,7 @@ const STR = {
     type_Community: "ಸಮುದಾಯ",
     type_Temple: "ದೇವಸ್ಥಾನ",
     type_Apartment: "ಅಪಾರ್ಟ್‌ಮೆಂಟ್",
-    type_Other: "ಇತರೆ",
+    type_Other: "ವಿಸರ್ಜನೆ ಟ್ಯಾಂಕ್",
     sort_label: "ವಿಂಗಡಿಸಿ",
     sort_popular: "ಹೆಚ್ಚು ಪ್ರೀತಿಸಲ್ಪಟ್ಟ",
     sort_newest: "ಹೊಸದು",
@@ -304,6 +331,9 @@ const STR = {
     opt_private: "ನಿವಾಸಿಗಳು / ಖಾಸಗಿ ಪ್ರವೇಶ",
     f_social: "ಇನ್‌ಸ್ಟಾಗ್ರಾಂ ಅಥವಾ ಸಾಮಾಜಿಕ ಪುಟ",
     f_social_ph: "instagram.com/yourganesha, @handle, ಅಥವಾ ಯಾವುದೇ ಲಿಂಕ್",
+    f_addedby: "ಸೇರಿಸಿದವರು",
+    f_addedby_ph: "ನಿಮ್ಮ ಹೆಸರು ಅಥವಾ @ಹ್ಯಾಂಡಲ್",
+    added_by_label: "ಸೇರಿಸಿದವರು",
     f_confirm2: "ಈ ಸಾರ್ವಜನಿಕ ಸ್ಥಳವನ್ನು ಹಂಚಿಕೊಳ್ಳಲು ನನಗೆ ಅನುಮತಿ ಇದೆ.",
     f_cancel: "ರದ್ದುಮಾಡಿ",
     f_submit: "ನನ್ನ ಗಣೇಶನನ್ನು ಸೇರಿಸಿ",
@@ -344,7 +374,7 @@ function nShare(n) {
   return `${n} WhatsApp share-button tap${n === 1 ? "" : "s"}`;
 }
 
-const typeMarks = { all: "◎", Community: "✿", Temple: "♜", Apartment: "▦", Other: "◆" };
+const typeMarks = { all: "◎", Community: "✿", Temple: "♜", Apartment: "▦", Other: "≈" };
 const app = document.querySelector("#app");
 let map;
 let formMap;
@@ -608,7 +638,7 @@ function refreshMarkers() {
 }
 
 function pinIcon(p, active = false) {
-  const color = p.type === "Temple" ? "#cf9a2e" : p.type === "Apartment" ? "#3f6b5a" : p.type === "Other" ? "#97455a" : "#a83c22";
+  const color = p.type === "Temple" ? "#cf9a2e" : p.type === "Apartment" ? "#3f6b5a" : p.type === "Other" ? "#2f7ca6" : "#a83c22";
   return L.divIcon({ className: "pin-wrap", html: `<div class="pin${active ? " active" : ""}" style="background:${color}"><span>${typeMarks[p.type] || "✿"}</span></div>`, iconSize: [34, 34], iconAnchor: [17, 34], popupAnchor: [0, -32] });
 }
 
@@ -659,6 +689,7 @@ function renderDetail(id) {
       <div class="detail-loc">⌖ ${esc(p.area)}, ${esc(cityLabel)}</div>
       <div class="detail-meta"><span class="rankline">${nRank(rank)}</span><button class="heart ${p.liked ? "on" : ""}" data-like="${p.id}" aria-pressed="${p.liked}">${p.liked ? "♥" : "♡"} ${p.likes}</button></div>
       <p class="detail-about">${about}</p>
+      ${p.addedBy ? `<p class="added-by"><span class="added-by-ic" aria-hidden="true">✦</span> ${esc(t("added_by_label"))} · ${addedByHtml(p.addedBy)}</p>` : ""}
       ${infoRows.length ? `<div class="info-rows">${infoRows.map(r => `<div class="info-row"><span class="info-ic" aria-hidden="true">${r.icon}</span><span><small>${esc(r.label)}</small><strong>${esc(r.value)}</strong></span></div>`).join("")}</div>` : ""}
       <div class="detail-block"><h3>${esc(t("whats_happening"))}</h3>${whatsHappening}</div>
       <div class="detail-actions">
@@ -767,6 +798,15 @@ function socialLink(raw) {
   return { url, icon, label, handle };
 }
 
+// Credit for "Added by": links an @handle to Instagram or a URL, else plain text.
+function addedByHtml(raw) {
+  const v = (raw || "").trim();
+  if (!v) return "";
+  if (/^@[\w.]+$/.test(v)) return `<a href="https://instagram.com/${esc(v.slice(1))}" target="_blank" rel="noopener">${esc(v)}</a>`;
+  if (/^https?:\/\//i.test(v)) { let h = v; try { h = new URL(v).hostname.replace(/^www\./, "") + new URL(v).pathname.replace(/\/$/, ""); } catch {} return `<a href="${esc(v)}" target="_blank" rel="noopener">${esc(h)}</a>`; }
+  return esc(v);
+}
+
 function fmtDate(d) {
   if (!d) return "";
   const dt = new Date(d + "T00:00");
@@ -820,6 +860,56 @@ function renderLeaderboard() {
     <div class="leader-cta"><a class="primary" href="/" data-route>${esc(t("leader_cta"))}</a></div>`
   );
   document.querySelectorAll("[data-open]").forEach(b => b.addEventListener("click", () => navigate("/?p=" + b.dataset.open)));
+}
+
+const VISARJAN = {
+  zones: [
+    ["101 ಗಣಪತಿ ದೇವಸ್ಥಾನ", "ಭೂತಾಳೆ ಮೈದಾನ"],
+    ["ಬಲ್ಲಾಳ್ ವೃತ್ತ", "ವಿವೇಕಾನಂದ ವೃತ್ತ", "ಜೆ.ಪಿ. ನಗರದ ಗೊಬ್ಬಳಿ ಮರದ ಬಳಿ"],
+    ["ಅನಿಕೇತನ ರಸ್ತೆಯ ಜ್ಞಾನಗಂಗಾ ಶಾಲೆ", "ಕೆ.ಜಿ. ಕೊಪ್ಪಲು", "ಶಾರದಾದೇವಿ ನಗರ"],
+    ["ಬೇಕ್ ಪಾಯಿಂಟ್ ವೃತ್ತ", "ಮಾತೃ ಮಂಡಳಿ ವೃತ್ತ", "ಗೋಕುಲಂ ಗಣಪತಿ ದೇವಸ್ಥಾನದ ಬಳಿ"],
+    ["ಬಸವನಗುಡಿ ವೃತ್ತ", "ಅಭಿಷೇಕ್ ವೃತ್ತದ ಬಳಿ"],
+    ["ಜಗನ್ಮೋಹನ ಅರಮನೆ", "ಕಚೇರಿ ಅಂಗಳ"],
+    ["ಎಫ್‌ಟಿಎಸ್ ವೃತ್ತ", "ಬಿ.ಬಿ. ಕೇರಿಯ ಪುಲಿಕೇಶಿ ರಸ್ತೆಯ ಬಳಿ"],
+    ["ಎನ್.ಆರ್. ಮೊಹಲ್ಲಾದ ಮಾರುತಿ ವೃತ್ತ", "ಉದಯಗಿರಿಯ ಗಣೇಶ ನಗರ"],
+    ["ಟೆರೇಷಿಯನ್ ಕಾಲೇಜು ವೃತ್ತ", "ತ್ರಿವೇಣಿ ವೃತ್ತದ ಬಳಿ"]
+  ],
+  routes: [
+    { stops: [["Metagalli Police Station", "4:00 to 5:15 PM"], ["K.D. Circle, Vijayanagar 2nd Stage", "5:30 to 6:45 PM"], ["Mathrumandali Circle", "7:00 to 8:15 PM"], ["Kukkarahalli Lake main entrance", "8:30 to 10:30 PM"]], contact: ["A.M. Siddaiah", "9880164745"] },
+    { stops: [["Vikram Hospital, Yadavagiri", "4:00 to 5:15 PM"], ["Shantala Theatre", "5:30 to 6:45 PM"], ["Chamundipuram Circle", "7:00 to 8:15 PM"], ["Karanji Lake main entrance", "8:30 to 10:30 PM"]], contact: ["Shivanna", "9900479002"] },
+    { stops: [["Jayamma Govindegowda Kalyana Mantapa, Kuvempunagar", "4:00 to 5:15 PM"], ["Jayanagar Railway Gate", "5:30 to 6:45 PM"], ["Gobbali Mara Bus Stand, J.P. Nagar", "7:00 to 8:15 PM"], ["Lingambudhi Lake main gate, via Srirampura", "8:30 to 10:30 PM"]], contact: ["H.C. Lakshman", "9845307419"] }
+  ]
+};
+
+function openVisarjan() {
+  if (document.querySelector("#visOverlay")) return;
+  const o = document.createElement("div");
+  o.id = "visOverlay";
+  o.className = "coffee-overlay";
+  o.innerHTML = `<div class="vis-modal" role="dialog" aria-modal="true" aria-label="${esc(t("nav_visarjan"))}">
+    <button class="coffee-close" id="visClose" aria-label="${esc(t("detail_close"))}">✕</button>
+    <div class="eyebrow">${esc(t("vis_eyebrow"))}</div>
+    <h2>${t("vis_headline")}</h2>
+    <p class="vis-modal-lede">${esc(t("vis_lede"))}</p>
+    <div class="vis-summary">
+      <div class="vis-info"><span class="vis-ic" aria-hidden="true">📅</span><span><small>${esc(t("vis_days"))}</small><strong>${esc(t("vis_days_val"))}</strong></span></div>
+      <div class="vis-info"><span class="vis-ic" aria-hidden="true">🕕</span><span><small>${esc(t("vis_time"))}</small><strong>${esc(t("vis_time_val"))}</strong></span></div>
+    </div>
+    <h3 class="vis-h">${esc(t("vis_fixed"))}</h3>
+    <div class="vis-zones">${VISARJAN.zones.map((pts, i) => `<div class="vis-zone"><div class="vis-znum">${esc(t("vis_zone"))} ${i + 1}</div><ul>${pts.map(p => `<li>${esc(p)}</li>`).join("")}</ul></div>`).join("")}</div>
+    <h3 class="vis-h">${esc(t("vis_routes"))}</h3>
+    <div class="vis-routes">${VISARJAN.routes.map((r, i) => `<div class="vis-route">
+      <div class="vis-rnum">${i + 1}</div>
+      <ol>${r.stops.map(s => `<li><span>${esc(s[0])}</span><small>${esc(s[1])}</small></li>`).join("")}</ol>
+      <a class="vis-contact" href="tel:+91${r.contact[1]}">${esc(t("vis_contact"))}: ${esc(r.contact[0])} · ${esc(r.contact[1].replace(/(\d{5})(\d{5})/, "$1 $2"))}</a>
+    </div>`).join("")}</div>
+  </div>`;
+  document.body.appendChild(o);
+  const close = () => { o.remove(); document.removeEventListener("keydown", onKey); };
+  const onKey = e => { if (e.key === "Escape") close(); };
+  document.addEventListener("keydown", onKey);
+  o.addEventListener("click", e => { if (e.target === o) close(); });
+  o.querySelector("#visClose").addEventListener("click", close);
 }
 
 function renderAdd() {
@@ -877,6 +967,7 @@ function renderAdd() {
         </div>
         <label>${esc(t("f_access"))} ${opt}<select name="access"><option value="Not confirmed">${esc(t("opt_not_confirmed"))}</option><option value="Open to visitors">${esc(t("opt_open"))}</option><option value="Residents / private access">${esc(t("opt_private"))}</option></select></label>
         <label>${esc(t("f_social"))} ${opt}<input type="text" name="social" placeholder="${esc(t("f_social_ph"))}"></label>
+        <label>${esc(t("f_addedby"))} ${opt}<input type="text" name="added_by" placeholder="${esc(t("f_addedby_ph"))}"></label>
         <label class="checks"><input type="checkbox"><span>${esc(t("f_confirm2"))}</span></label>
       </section>
       <div class="actions"><a class="ghost" href="/" data-route>${esc(t("f_cancel"))}</a><button class="primary" type="submit">${esc(t("f_submit"))}</button></div>
@@ -919,7 +1010,8 @@ function renderAdd() {
         about: (data.about || "").trim(), timings: (data.timings || "").trim(),
         organiser: (data.organiser || "").trim(), visarjan: data.visarjan || "",
         access: data.access && data.access !== "Not confirmed" ? data.access : "",
-        social: (data.social || "").trim(), events: collectEvents(),
+        social: (data.social || "").trim(), added_by: (data.added_by || "").trim(),
+        events: collectEvents(),
         photo_url, verified: false, likes: 0
       };
       const res = await fetch(`${SB_URL}/rest/v1/ganeshas`, { method: "POST", headers: { ...SB_HJSON, Prefer: "return=representation" }, body: JSON.stringify(row) });
@@ -1109,9 +1201,9 @@ function collectEvents() {
    in dist/, or a data: URL), COFFEE_UPI to your UPI id, COFFEE_NAME to your name. */
 const COFFEE_PRICE = 25;
 const COFFEE_QTYS = [1, 2, 5, 10];
-const COFFEE_QR = "";     // e.g. "/coffee-qr.png"
-const COFFEE_UPI = "";    // e.g. "yourname@okhdfcbank"
-const COFFEE_NAME = "";   // e.g. "Rushi"
+const COFFEE_QR = "/coffee-qr.png";
+const COFFEE_UPI = "sjruthvik99@okhdfcbank";
+const COFFEE_NAME = "SJ Ruthvik";
 const COFFEE_SVG = `<svg viewBox="0 0 120 128" width="104" height="112" role="img" aria-label="filter coffee">
   <g class="steam" fill="none" stroke="#cf9a2e" stroke-width="4" stroke-linecap="round" opacity="0.8">
     <path d="M48 40 q-7 -9 0 -18 q7 -9 0 -18"/>
@@ -1187,6 +1279,9 @@ function render() {
 
 const coffeeBtn = document.querySelector("#coffeeBtn");
 if (coffeeBtn) coffeeBtn.addEventListener("click", openCoffee);
+
+const visarjanBtn = document.querySelector("#visarjanBtn");
+if (visarjanBtn) visarjanBtn.addEventListener("click", openVisarjan);
 
 const langToggle = document.querySelector("#langToggle");
 if (langToggle) langToggle.addEventListener("click", () => {
