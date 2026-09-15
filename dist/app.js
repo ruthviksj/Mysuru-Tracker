@@ -50,7 +50,7 @@ async function uploadPhoto(dataUrl) {
   const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.jpg`;
   const res = await fetch(`${SB_URL}/storage/v1/object/ganesha-photos/${path}`, {
     method: "POST",
-    headers: { apikey: SB_KEY, Authorization: "Bearer " + SB_KEY, "Content-Type": "image/jpeg", "x-upsert": "true" },
+    headers: { apikey: SB_KEY, Authorization: "Bearer " + SB_KEY, "Content-Type": "image/jpeg" },
     body: blob
   });
   if (!res.ok) throw new Error("upload failed");
@@ -850,7 +850,7 @@ function renderAdd() {
         <div class="field">
           <span class="field-label">${esc(t("f_gmaps"))} ${opt}</span>
           <div class="linkrow">
-            <input type="url" id="gmapsLink" placeholder="${esc(t("f_gmaps_ph"))}">
+            <input type="text" id="gmapsLink" inputmode="url" placeholder="${esc(t("f_gmaps_ph"))}">
             <button type="button" class="ghost" id="findPin">${esc(t("f_findpin"))}</button>
           </div>
           <p class="link-hint">${esc(t("f_gmaps_hint"))}</p>
@@ -859,8 +859,8 @@ function renderAdd() {
         <p class="map-hint">${esc(t("f_map_hint"))}</p>
         <div id="formMap"></div>
         <div class="field-grid">
-          <label>${esc(t("f_lat"))} *<input required name="lat" type="number" step="0.0001" value="12.2958"></label>
-          <label>${esc(t("f_lng"))} *<input required name="lng" type="number" step="0.0001" value="76.6394"></label>
+          <label>${esc(t("f_lat"))}<input name="lat" type="number" step="any" value="12.2958"></label>
+          <label>${esc(t("f_lng"))}<input name="lng" type="number" step="any" value="76.6394"></label>
         </div>
         <label class="checks"><input required type="checkbox"><span>${esc(t("f_confirm1"))}</span></label>
       </section>
@@ -877,7 +877,7 @@ function renderAdd() {
         </div>
         <label>${esc(t("f_access"))} ${opt}<select name="access"><option value="Not confirmed">${esc(t("opt_not_confirmed"))}</option><option value="Open to visitors">${esc(t("opt_open"))}</option><option value="Residents / private access">${esc(t("opt_private"))}</option></select></label>
         <label>${esc(t("f_social"))} ${opt}<input type="text" name="social" placeholder="${esc(t("f_social_ph"))}"></label>
-        <label class="checks"><input required type="checkbox"><span>${esc(t("f_confirm2"))}</span></label>
+        <label class="checks"><input type="checkbox"><span>${esc(t("f_confirm2"))}</span></label>
       </section>
       <div class="actions"><a class="ghost" href="/" data-route>${esc(t("f_cancel"))}</a><button class="primary" type="submit">${esc(t("f_submit"))}</button></div>
     </form>
