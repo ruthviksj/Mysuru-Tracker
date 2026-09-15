@@ -80,8 +80,15 @@ const STR = {
     foot_chant: "Ganapati Bappa Morya!",
     foot_modak: "Buy me some modaks",
     foot_owner: "Owner access",
+    foot_coffee: "☕ Buy me a filter coffee",
+    coffee_title: "If you like my work, buy me a filter coffee.",
+    coffee_sub: "Pick a round, then scan with any UPI app.",
+    coffee_word: "Coffee",
+    coffee_selected: "selected",
+    coffee_scan: "Scan to pay with any UPI app",
+    coffee_qr_soon: "UPI QR coming soon",
     home_eyebrow: "Ganesh Chaturthi · 2026",
-    home_headline: "A royal city full of <span>Bappa.</span>",
+    home_headline: "A royal city full of <span>Ganeshas.</span>",
     home_lede: "Find a Ganesha. Feel the celebration. Be part of it.",
     cn_title: "Namma Mysuru,<br>Namma Ganesha <span aria-hidden=\"true\">♡</span>",
     search_ph: "Try Kuvempunagar, Devaraja Market, Gokulam...",
@@ -102,7 +109,7 @@ const STR = {
     status_pending: "Pending verification",
     loved_head: "A little local love",
     see_all: "See all favourites ↗",
-    stats_lead: "A little community. A lot of Bappa.",
+    stats_lead: "A little community. A lot of Ganesha.",
     page_views: "page views",
     fav_suffix: "community favourites ↗",
     about_fallback: "A neighbourhood Ganesha celebration in {area}, Mysuru. More details coming soon.",
@@ -122,14 +129,14 @@ const STR = {
     toast_copied: "Ganesha link copied",
     leader_eyebrow: "The community's picks · 2026",
     leader_headline: "A whole lot of <span>local love.</span>",
-    leader_lede: "Different neighbourhoods. The same love for Bappa.",
+    leader_lede: "Different neighbourhoods. The same love for Ganesha.",
     leader_cta: "Explore all Ganeshas",
     back_map: "← Back to the map",
     add_eyebrow: "Built by the community",
-    add_h1: "Put your Bappa <span>on the map.</span>",
+    add_h1: "Put your Ganesha <span>on the map.</span>",
     add_lede: "A neighbourhood celebration deserves to be found. It takes a minute.",
     sec1: "The Ganesha",
-    sec2: "Where to find Bappa",
+    sec2: "Where to find Ganesha",
     sec3: "The celebration",
     optional: "Optional",
     f_name: "Ganesha name",
@@ -177,8 +184,13 @@ const STR = {
     submit_fail: "Sorry, that couldn't be saved. Please check your connection and try again.",
     fp_empty: "Paste a Google Maps link first.",
     fp_placed: "Pin placed at {lat}, {lng}. Confirm it on the map.",
+    fp_resolving: "Finding the location…",
     fp_short: "Short links don't carry the coordinates. Open the link in Google Maps, then copy the full link from the address bar and paste it here.",
+    fp_short_fail: "Couldn't read that link. Open it in Google Maps and paste the full link, or drop the pin by hand.",
     fp_none: "Couldn't find coordinates in that link. Paste the full Google Maps link, or type lat, lng below.",
+    fp_outside: "That location is outside Mysuru.",
+    outside_msg: "This pin is outside Mysuru. Please move it onto the city.",
+    ok: "OK",
     ctrl_locate: "Use my location",
     ctrl_full: "Toggle fullscreen",
     err_locate: "Couldn't get your location",
@@ -196,8 +208,15 @@ const STR = {
     foot_chant: "ಗಣಪತಿ ಬಪ್ಪಾ ಮೋರ್ಯಾ!",
     foot_modak: "ನನಗೆ ಕೆಲವು ಮೋದಕ ಕೊಡಿಸಿ",
     foot_owner: "ಮಾಲೀಕ ಪ್ರವೇಶ",
+    foot_coffee: "☕ ನನಗೆ ಫಿಲ್ಟರ್ ಕಾಫಿ ಕೊಡಿಸಿ",
+    coffee_title: "ನನ್ನ ಕೆಲಸ ಇಷ್ಟವಾದರೆ, ನನಗೆ ಒಂದು ಫಿಲ್ಟರ್ ಕಾಫಿ ಕೊಡಿಸಿ.",
+    coffee_sub: "ಒಂದು ಸುತ್ತು ಆಯ್ಕೆಮಾಡಿ, ನಂತರ ಯಾವುದೇ UPI ಆ್ಯಪ್‌ನಲ್ಲಿ ಸ್ಕ್ಯಾನ್ ಮಾಡಿ.",
+    coffee_word: "ಕಾಫಿ",
+    coffee_selected: "ಆಯ್ಕೆಯಾಗಿದೆ",
+    coffee_scan: "ಯಾವುದೇ UPI ಆ್ಯಪ್‌ನಲ್ಲಿ ಪಾವತಿಸಲು ಸ್ಕ್ಯಾನ್ ಮಾಡಿ",
+    coffee_qr_soon: "UPI QR ಶೀಘ್ರದಲ್ಲೇ",
     home_eyebrow: "ಗಣೇಶ ಚತುರ್ಥಿ · 2026",
-    home_headline: "<span>ಬಪ್ಪಾ</span> ತುಂಬಿದ ರಾಜನಗರಿ.",
+    home_headline: "<span>ಗಣೇಶ</span> ತುಂಬಿದ ರಾಜನಗರಿ.",
     home_lede: "ಗಣೇಶನನ್ನು ಹುಡುಕಿ. ಸಂಭ್ರಮವನ್ನು ಅನುಭವಿಸಿ. ಭಾಗವಾಗಿ.",
     cn_title: "ನಮ್ಮ ಮೈಸೂರು,<br>ನಮ್ಮ ಗಣೇಶ <span aria-hidden=\"true\">♡</span>",
     search_ph: "ಕುವೆಂಪುನಗರ, ದೇವರಾಜ ಮಾರುಕಟ್ಟೆ, ಗೋಕುಲಂ ಪ್ರಯತ್ನಿಸಿ...",
@@ -218,7 +237,7 @@ const STR = {
     status_pending: "ಪರಿಶೀಲನೆ ಬಾಕಿ",
     loved_head: "ಸ್ವಲ್ಪ ಸ್ಥಳೀಯ ಪ್ರೀತಿ",
     see_all: "ಎಲ್ಲಾ ಮೆಚ್ಚುಗೆಗಳನ್ನು ನೋಡಿ ↗",
-    stats_lead: "ಸ್ವಲ್ಪ ಸಮುದಾಯ. ಬಹಳಷ್ಟು ಬಪ್ಪಾ.",
+    stats_lead: "ಸ್ವಲ್ಪ ಸಮುದಾಯ. ಬಹಳಷ್ಟು ಗಣೇಶ.",
     page_views: "ಪುಟ ವೀಕ್ಷಣೆಗಳು",
     fav_suffix: "ಸಮುದಾಯ ಮೆಚ್ಚುಗೆಗಳು ↗",
     about_fallback: "{area}, ಮೈಸೂರಿನ ಬಡಾವಣೆಯ ಗಣೇಶ ಸಂಭ್ರಮ. ಹೆಚ್ಚಿನ ವಿವರಗಳು ಶೀಘ್ರದಲ್ಲೇ.",
@@ -238,14 +257,14 @@ const STR = {
     toast_copied: "ಗಣೇಶ ಲಿಂಕ್ ನಕಲಿಸಲಾಗಿದೆ",
     leader_eyebrow: "ಸಮುದಾಯದ ಆಯ್ಕೆಗಳು · 2026",
     leader_headline: "ಬಹಳಷ್ಟು <span>ಸ್ಥಳೀಯ ಪ್ರೀತಿ.</span>",
-    leader_lede: "ಬೇರೆ ಬೇರೆ ಬಡಾವಣೆಗಳು. ಬಪ್ಪಾನ ಮೇಲೆ ಅದೇ ಪ್ರೀತಿ.",
+    leader_lede: "ಬೇರೆ ಬೇರೆ ಬಡಾವಣೆಗಳು. ಗಣೇಶನ ಮೇಲೆ ಅದೇ ಪ್ರೀತಿ.",
     leader_cta: "ಎಲ್ಲಾ ಗಣೇಶಗಳನ್ನು ಅನ್ವೇಷಿಸಿ",
     back_map: "← ನಕ್ಷೆಗೆ ಹಿಂತಿರುಗಿ",
     add_eyebrow: "ಸಮುದಾಯದಿಂದ ನಿರ್ಮಿತ",
-    add_h1: "ನಿಮ್ಮ ಬಪ್ಪಾನನ್ನು <span>ನಕ್ಷೆಯಲ್ಲಿ ಹಾಕಿ.</span>",
+    add_h1: "ನಿಮ್ಮ ಗಣೇಶನನ್ನು <span>ನಕ್ಷೆಯಲ್ಲಿ ಹಾಕಿ.</span>",
     add_lede: "ಬಡಾವಣೆಯ ಸಂಭ್ರಮ ಕಂಡುಬರಬೇಕು. ಒಂದು ನಿಮಿಷ ಸಾಕು.",
     sec1: "ಗಣೇಶ",
-    sec2: "ಬಪ್ಪಾನನ್ನು ಎಲ್ಲಿ ಹುಡುಕುವುದು",
+    sec2: "ಗಣೇಶನನ್ನು ಎಲ್ಲಿ ಹುಡುಕುವುದು",
     sec3: "ಸಂಭ್ರಮ",
     optional: "ಐಚ್ಛಿಕ",
     f_name: "ಗಣೇಶನ ಹೆಸರು",
@@ -293,8 +312,13 @@ const STR = {
     submit_fail: "ಕ್ಷಮಿಸಿ, ಅದನ್ನು ಉಳಿಸಲಾಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಸಂಪರ್ಕ ಪರಿಶೀಲಿಸಿ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
     fp_empty: "ಮೊದಲು ಗೂಗಲ್ ನಕ್ಷೆ ಲಿಂಕ್ ಅಂಟಿಸಿ.",
     fp_placed: "ಪಿನ್ {lat}, {lng} ನಲ್ಲಿ ಇಡಲಾಗಿದೆ. ನಕ್ಷೆಯಲ್ಲಿ ದೃಢೀಕರಿಸಿ.",
+    fp_resolving: "ಸ್ಥಳವನ್ನು ಹುಡುಕಲಾಗುತ್ತಿದೆ…",
     fp_short: "ಚಿಕ್ಕ ಲಿಂಕ್‌ಗಳಲ್ಲಿ ನಿರ್ದೇಶಾಂಕಗಳಿರುವುದಿಲ್ಲ. ಲಿಂಕ್ ಅನ್ನು ಗೂಗಲ್ ನಕ್ಷೆಯಲ್ಲಿ ತೆರೆದು, ವಿಳಾಸ ಪಟ್ಟಿಯಿಂದ ಪೂರ್ಣ ಲಿಂಕ್ ಅನ್ನು ನಕಲಿಸಿ ಇಲ್ಲಿ ಅಂಟಿಸಿ.",
+    fp_short_fail: "ಆ ಲಿಂಕ್ ಓದಲಾಗಲಿಲ್ಲ. ಗೂಗಲ್ ನಕ್ಷೆಯಲ್ಲಿ ತೆರೆದು ಪೂರ್ಣ ಲಿಂಕ್ ಅಂಟಿಸಿ, ಅಥವಾ ಪಿನ್ ಅನ್ನು ಕೈಯಿಂದ ಇಡಿ.",
     fp_none: "ಆ ಲಿಂಕ್‌ನಲ್ಲಿ ನಿರ್ದೇಶಾಂಕ ಸಿಗಲಿಲ್ಲ. ಪೂರ್ಣ ಗೂಗಲ್ ನಕ್ಷೆ ಲಿಂಕ್ ಅಂಟಿಸಿ, ಅಥವಾ ಕೆಳಗೆ ಅಕ್ಷಾಂಶ, ರೇಖಾಂಶ ಟೈಪ್ ಮಾಡಿ.",
+    fp_outside: "ಆ ಸ್ಥಳ ಮೈಸೂರಿನ ಹೊರಗಿದೆ.",
+    outside_msg: "ಈ ಪಿನ್ ಮೈಸೂರಿನ ಹೊರಗಿದೆ. ದಯವಿಟ್ಟು ಅದನ್ನು ನಗರದ ಒಳಗೆ ಸರಿಸಿ.",
+    ok: "ಸರಿ",
     ctrl_locate: "ನನ್ನ ಸ್ಥಳ ಬಳಸಿ",
     ctrl_full: "ಪೂರ್ಣಪರದೆ ಬದಲಿಸಿ",
     err_locate: "ನಿಮ್ಮ ಸ್ಥಳ ಪಡೆಯಲಾಗಲಿಲ್ಲ",
@@ -327,6 +351,40 @@ let cluster = null;
 let state = { query: "", type: "all", sort: "popular", selected: null };
 
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+/* ---------------- Mysuru geo-fence ---------------- */
+const MYSURU_RADIUS_KM = 30;
+function distKm(lat, lng) {
+  const R = 6371, toRad = d => d * Math.PI / 180;
+  const dLat = toRad(lat - center[0]);
+  const dLng = toRad(lng - center[1]);
+  const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(center[0])) * Math.cos(toRad(lat)) * Math.sin(dLng / 2) ** 2;
+  return 2 * R * Math.asin(Math.min(1, Math.sqrt(a)));
+}
+function inMysuru(lat, lng) { return isFinite(lat) && isFinite(lng) && distKm(lat, lng) <= MYSURU_RADIUS_KM; }
+function mysuruBounds() { return L.latLngBounds([center[0] - 0.33, center[1] - 0.34], [center[0] + 0.33, center[1] + 0.34]); }
+
+async function resolveLink(url) {
+  try {
+    const res = await fetch("/api/resolve?url=" + encodeURIComponent(url));
+    if (!res.ok) return null;
+    const j = await res.json();
+    if (typeof j.lat === "number" && typeof j.lng === "number") return { lat: j.lat, lng: j.lng };
+  } catch (e) {}
+  return null;
+}
+
+function alertPopup(msg) {
+  const o = document.createElement("div");
+  o.className = "coffee-overlay";
+  o.innerHTML = `<div class="popup-modal"><p>${esc(msg)}</p><button class="primary" type="button">${esc(t("ok"))}</button></div>`;
+  document.body.appendChild(o);
+  const close = () => { o.remove(); document.removeEventListener("keydown", onKey); };
+  const onKey = e => { if (e.key === "Escape" || e.key === "Enter") close(); };
+  document.addEventListener("keydown", onKey);
+  o.addEventListener("click", e => { if (e.target === o) close(); });
+  o.querySelector("button").addEventListener("click", close);
+}
 
 function pandals() { return remote === null ? defaults : remote; }
 function likedIds() {
@@ -471,7 +529,7 @@ function card(p) {
 function renderMap() {
   if (typeof L === "undefined") { const el = document.querySelector("#map"); if (el) el.innerHTML = `<div class="empty" style="margin:16px">${esc(t("map_fail"))}</div>`; return; }
   if (map) map.remove();
-  map = L.map("map", { scrollWheelZoom: true, zoomControl: true, doubleClickZoom: true, minZoom: 10, maxZoom: 18 }).setView(center, 12);
+  map = L.map("map", { scrollWheelZoom: true, zoomControl: true, doubleClickZoom: true, minZoom: 11, maxZoom: 18, maxBounds: mysuruBounds(), maxBoundsViscosity: 1 }).setView(center, 12);
   map.zoomControl.setPosition("topright");
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: "© OpenStreetMap contributors", maxZoom: 19 }).addTo(map);
   if (typeof L.markerClusterGroup === "function") {
@@ -603,7 +661,7 @@ function renderDetail(id) {
       <div class="detail-block"><h3>${esc(t("whats_happening"))}</h3>${whatsHappening}</div>
       <div class="detail-actions">
         <a class="primary" href="https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}" target="_blank" rel="noopener">${esc(t("act_directions"))}</a>
-        ${social ? `<a class="ghost social-link" href="${social.url}" target="_blank" rel="noopener"><span aria-hidden="true">${social.icon}</span> ${esc(tf("act_follow", { label: social.label }))}</a>` : ""}
+        ${social ? `<a class="social-card" href="${social.url}" target="_blank" rel="noopener" aria-label="${esc(tf("act_follow", { label: social.label }))}"><span class="social-ic" aria-hidden="true">${social.icon}</span><span class="social-txt"><strong>${esc(social.label)}</strong><small>${esc(social.handle)}</small></span><span class="social-go" aria-hidden="true">↗</span></a>` : ""}
         <a class="osm-link" href="${osm}" target="_blank" rel="noopener">${esc(t("act_osm"))}</a>
         <div class="share-row">
           <a class="ghost share-wa" id="shareWa" href="https://wa.me/?text=${encodeURIComponent(`${p.name} · ${p.area}, ${cityLabel} · GaneshaTracker\n${shareUrl}`)}" target="_blank" rel="noopener">${esc(t("act_share_wa"))}</a>
@@ -696,8 +754,15 @@ function socialLink(raw) {
     [/youtube\.com|youtu\.be/, "▶", "YouTube"],
     [/wa\.me|whatsapp\.com/, "💬", "WhatsApp"]
   ];
-  for (const [re, icon, label] of m) if (re.test(host)) return { url, icon, label };
-  return { url, icon: "↗", label: "Social page" };
+  let icon = "↗", label = "Social page";
+  for (const [re, ic, lb] of m) if (re.test(host)) { icon = ic; label = lb; break; }
+  let handle;
+  try {
+    const u = new URL(url);
+    const seg = u.pathname.split("/").filter(Boolean)[0] || "";
+    handle = (["Instagram", "X", "YouTube", "Facebook"].includes(label) && seg) ? "@" + seg.replace(/^@/, "") : u.hostname.replace(/^www\./, "");
+  } catch { handle = url; }
+  return { url, icon, label, handle };
 }
 
 function fmtDate(d) {
@@ -742,10 +807,17 @@ function renderLeaderboard() {
   shell(
     t("leader_eyebrow"), t("leader_headline"), t("leader_lede"),
     `<section class="page leader-page">
-      ${topRows(50).map((p, index) => `<div class="rank-row"><span class="rank-num">${index + 1}</span><span><strong>${esc(p.name)}</strong><small>${esc(p.area)} · ${esc(typeLabel(p.type))}</small></span><span class="rank-likes">♡ ${p.likes}</span></div>`).join("")}
+      ${topRows(50).map((p, index) => `<button class="rank-row" data-open="${p.id}" aria-label="${esc(p.name)}">
+        <span class="rank-num">${index + 1}</span>
+        <span class="rank-thumb${p.photo ? " has" : ""}"${p.photo ? ` style="background-image:url('${p.photo}')"` : ""}></span>
+        <span class="rank-main"><strong>${esc(p.name)}</strong><small>${esc(p.area)} · ${esc(typeLabel(p.type))}</small></span>
+        <span class="rank-likes">♡ ${p.likes}</span>
+        <span class="rank-go" aria-hidden="true">↗</span>
+      </button>`).join("")}
     </section>
     <div class="leader-cta"><a class="primary" href="/" data-route>${esc(t("leader_cta"))}</a></div>`
   );
+  document.querySelectorAll("[data-open]").forEach(b => b.addEventListener("click", () => navigate("/?p=" + b.dataset.open)));
 }
 
 function renderAdd() {
@@ -814,18 +886,20 @@ function renderAdd() {
     const el = document.querySelector("#formMap");
     if (el) el.innerHTML = `<div class="empty" style="margin:16px">${esc(t("map_fail_add"))}</div>`;
   } else {
-    formMap = L.map("formMap", { scrollWheelZoom: true, zoomControl: true, minZoom: 10, maxZoom: 18 }).setView(center, 13);
+    formMap = L.map("formMap", { scrollWheelZoom: true, zoomControl: true, minZoom: 11, maxZoom: 18, maxBounds: mysuruBounds(), maxBoundsViscosity: 1 }).setView(center, 13);
     formMap.zoomControl.setPosition("topright");
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: "© OpenStreetMap contributors", maxZoom: 19 }).addTo(formMap);
     formMarker = L.marker(center, { draggable: true, icon: pinIcon({ type: "Community" }) }).addTo(formMap);
-    formMarker.on("dragend", () => syncLatLng(formMarker.getLatLng()));
-    formMap.on("click", e => { formMarker.setLatLng(e.latlng); syncLatLng(e.latlng); });
+    formLastValid = { lat: center[0], lng: center[1] };
+    formMarker.on("dragend", () => applyPinLatLng(formMarker.getLatLng()));
+    formMap.on("click", e => applyPinLatLng(e.latlng));
   }
   setupFindPin();
   const form = document.querySelector("#pandalForm");
   form.addEventListener("submit", async event => {
     event.preventDefault();
     const data = Object.fromEntries(new FormData(form));
+    if (!inMysuru(Number(data.lat), Number(data.lng))) { alertPopup(t("outside_msg")); return; }
     const btn = form.querySelector("button[type=submit]");
     const label = btn.textContent;
     btn.disabled = true;
@@ -920,14 +994,26 @@ function compressImage(dataUrl, opts) {
 }
 
 let formMarker = null;
+let formLastValid = null;
 function syncLatLng(pos) {
   const lat = document.querySelector("[name=lat]");
   const lng = document.querySelector("[name=lng]");
   if (lat) lat.value = pos.lat.toFixed(5);
   if (lng) lng.value = pos.lng.toFixed(5);
 }
+function applyPinLatLng(ll) {
+  if (!inMysuru(ll.lat, ll.lng)) {
+    alertPopup(t("outside_msg"));
+    if (formLastValid && formMarker) formMarker.setLatLng(formLastValid);
+    return;
+  }
+  formLastValid = { lat: ll.lat, lng: ll.lng };
+  if (formMarker) formMarker.setLatLng(ll);
+  syncLatLng(ll);
+}
 function setFormLocation(lat, lng) {
   syncLatLng({ lat, lng });
+  formLastValid = { lat, lng };
   if (formMap && formMarker) {
     formMarker.setLatLng([lat, lng]);
     formMap.setView([lat, lng], 16);
@@ -960,18 +1046,27 @@ function setupFindPin() {
   const status = document.querySelector("#linkStatus");
   if (!btn || !input) return;
   const show = (msg, kind) => { status.textContent = msg; status.className = "link-status " + kind; status.hidden = false; };
-  const run = () => {
+  const run = async () => {
     const val = input.value.trim();
     if (!val) { show(t("fp_empty"), "warn"); return; }
-    const coords = parseLatLng(val);
-    if (coords) {
-      setFormLocation(coords.lat, coords.lng);
-      show(tf("fp_placed", { lat: coords.lat.toFixed(5), lng: coords.lng.toFixed(5) }), "ok");
-    } else if (/maps\.app\.goo\.gl|goo\.gl\/maps/.test(val)) {
-      show(t("fp_short"), "warn");
-    } else {
-      show(t("fp_none"), "warn");
+    let coords = parseLatLng(val);
+    if (!coords && /^https?:\/\//i.test(val)) {
+      btn.disabled = true;
+      show(t("fp_resolving"), "");
+      coords = await resolveLink(val);
+      btn.disabled = false;
     }
+    if (!coords) {
+      show(/maps\.app\.goo\.gl|goo\.gl\/maps/.test(val) ? t("fp_short_fail") : t("fp_none"), "warn");
+      return;
+    }
+    if (!inMysuru(coords.lat, coords.lng)) {
+      alertPopup(t("outside_msg"));
+      show(t("fp_outside"), "warn");
+      return;
+    }
+    setFormLocation(coords.lat, coords.lng);
+    show(tf("fp_placed", { lat: coords.lat.toFixed(5), lng: coords.lng.toFixed(5) }), "ok");
   };
   btn.addEventListener("click", run);
   input.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); run(); } });
@@ -1002,6 +1097,61 @@ function collectEvents() {
   })).filter(e => e.name || e.date || e.time);
 }
 
+/* ---------------- Buy me a filter coffee ----------------
+   To go live: set COFFEE_QR to your UPI QR image (e.g. "/coffee-qr.png" placed
+   in dist/, or a data: URL), COFFEE_UPI to your UPI id, COFFEE_NAME to your name. */
+const COFFEE_PRICE = 25;
+const COFFEE_QTYS = [1, 2, 5, 10];
+const COFFEE_QR = "";     // e.g. "/coffee-qr.png"
+const COFFEE_UPI = "";    // e.g. "yourname@okhdfcbank"
+const COFFEE_NAME = "";   // e.g. "Rushi"
+const COFFEE_SVG = `<svg viewBox="0 0 120 128" width="104" height="112" role="img" aria-label="filter coffee">
+  <g class="steam" fill="none" stroke="#cf9a2e" stroke-width="4" stroke-linecap="round" opacity="0.8">
+    <path d="M48 40 q-7 -9 0 -18 q7 -9 0 -18"/>
+    <path d="M62 38 q7 -9 0 -18 q-7 -9 0 -18"/>
+    <path d="M76 40 q-7 -9 0 -18 q7 -9 0 -18"/>
+  </g>
+  <ellipse cx="62" cy="116" rx="40" ry="7" fill="#e7c98a" opacity="0.6"/>
+  <path d="M30 58 h64 l-6 44 a10 10 0 0 1 -10 9 H46 a10 10 0 0 1 -10 -9 Z" fill="url(#cg)"/>
+  <path d="M92 66 h8 a12 12 0 0 1 0 24 h-6" fill="none" stroke="#a83c22" stroke-width="7" stroke-linecap="round"/>
+  <ellipse cx="62" cy="58" rx="32" ry="7" fill="#fff4e2"/>
+  <ellipse cx="62" cy="57" rx="24" ry="4.5" fill="#6a3a1f"/>
+  <defs><linearGradient id="cg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c65733"/><stop offset="1" stop-color="#8a2f1a"/></linearGradient></defs>
+</svg>`;
+
+let coffeeQty = 1;
+function openCoffee() {
+  if (document.querySelector("#coffeeOverlay")) return;
+  coffeeQty = 1;
+  const overlay = document.createElement("div");
+  overlay.id = "coffeeOverlay";
+  overlay.className = "coffee-overlay";
+  const payHtml = COFFEE_QR
+    ? `${COFFEE_NAME ? `<div class="coffee-name">${esc(COFFEE_NAME)}</div>` : ""}<img class="coffee-qr" src="${COFFEE_QR}" alt="UPI QR code"><div class="coffee-scan">${esc(t("coffee_scan"))}</div>${COFFEE_UPI ? `<div class="coffee-upi">UPI: ${esc(COFFEE_UPI)}</div>` : ""}`
+    : `<div class="coffee-qr placeholder"><span>${esc(t("coffee_qr_soon"))}</span></div>`;
+  overlay.innerHTML = `
+    <div class="coffee-modal" role="dialog" aria-modal="true" aria-label="${esc(t("foot_coffee"))}">
+      <button class="coffee-close" aria-label="${esc(t("detail_close"))}">✕</button>
+      <div class="coffee-cup" aria-hidden="true">${COFFEE_SVG}</div>
+      <h2>${esc(t("coffee_title"))}</h2>
+      <p class="coffee-sub">${esc(t("coffee_sub"))}</p>
+      <div class="coffee-qty">${COFFEE_QTYS.map(q => `<button type="button" class="coffee-opt${q === coffeeQty ? " active" : ""}" data-qty="${q}"><strong>${q}× ${esc(t("coffee_word"))}</strong><span>₹${q * COFFEE_PRICE}</span></button>`).join("")}</div>
+      <div class="coffee-pay">${payHtml}</div>
+      <div class="coffee-total"><strong>₹${coffeeQty * COFFEE_PRICE}</strong> ${esc(t("coffee_selected"))}</div>
+    </div>`;
+  document.body.appendChild(overlay);
+  const close = () => { overlay.remove(); document.removeEventListener("keydown", onKey); };
+  const onKey = e => { if (e.key === "Escape") close(); };
+  document.addEventListener("keydown", onKey);
+  overlay.addEventListener("click", e => { if (e.target === overlay) close(); });
+  overlay.querySelector(".coffee-close").addEventListener("click", close);
+  overlay.querySelectorAll("[data-qty]").forEach(btn => btn.addEventListener("click", () => {
+    coffeeQty = Number(btn.dataset.qty);
+    overlay.querySelectorAll("[data-qty]").forEach(b => b.classList.toggle("active", b === btn));
+    overlay.querySelector(".coffee-total").innerHTML = `<strong>₹${coffeeQty * COFFEE_PRICE}</strong> ${esc(t("coffee_selected"))}`;
+  }));
+}
+
 function applyStatic() {
   document.documentElement.lang = lang;
   document.querySelectorAll("[data-i18n]").forEach(el => { el.textContent = t(el.dataset.i18n); });
@@ -1027,6 +1177,9 @@ function render() {
   app.firstElementChild?.classList.add("route");
   window.scrollTo({ top: 0, behavior: "auto" });
 }
+
+const coffeeBtn = document.querySelector("#coffeeBtn");
+if (coffeeBtn) coffeeBtn.addEventListener("click", openCoffee);
 
 const langToggle = document.querySelector("#langToggle");
 if (langToggle) langToggle.addEventListener("click", () => {
