@@ -12,7 +12,58 @@ const defaults = [
   ["Hebbal Layout Ganapati", "Hebbal Industrial Area", "Other", 4, 12.3565, 76.6078, "Pending verification"],
   ["Nazarbad Main Road Bappa", "Nazarbad", "Community", 3, 12.3051, 76.6655, "Pending verification"],
   ["Bogadi Road Ganesha", "Bogadi", "Apartment", 2, 12.3129, 76.5882, "Community verified"]
-].map((p, id) => ({ id, name: p[0], area: p[1], type: p[2], likes: p[3], lat: p[4], lng: p[5], status: p[6] }));
+].map((p, i) => ({ id: "seed" + i, name: p[0], area: p[1], type: p[2], likes: p[3], lat: p[4], lng: p[5], status: p[6] }));
+
+/* ---------------- Supabase backend ---------------- */
+const SB_URL = "https://llyflyapfdrwgsvjjarl.supabase.co";
+const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxseWZseWFwZmRyd2dzdmpqYXJsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk0Njc5ODIsImV4cCI6MjEwNTA0Mzk4Mn0.mHr26JvA8p49zgG7XJIXV8RB2H64oNHrjIQuxVldqhY";
+const SB_H = { apikey: SB_KEY, Authorization: "Bearer " + SB_KEY };
+const SB_HJSON = { ...SB_H, "Content-Type": "application/json" };
+let remote = null;   // null = not loaded / offline (fall back to seed); array once loaded
+let pageViews = null;
+
+function mapRow(r) {
+  return {
+    id: r.id, name: r.name, area: r.area, type: r.type, likes: r.likes || 0,
+    lat: r.lat, lng: r.lng,
+    status: r.verified ? "Community verified" : "Pending verification",
+    photo: r.photo_url || "", about: r.about || "", timings: r.timings || "",
+    organiser: r.organiser || "", visarjan: r.visarjan || "", access: r.access || "",
+    social: r.social || "", events: Array.isArray(r.events) ? r.events : []
+  };
+}
+async function loadGaneshas() {
+  try {
+    const res = await fetch(`${SB_URL}/rest/v1/ganeshas?select=*`, { headers: SB_H });
+    if (!res.ok) throw new Error(res.status);
+    remote = (await res.json()).map(mapRow);
+  } catch (e) { remote = null; }
+}
+async function bumpPageViews() {
+  try {
+    const res = await fetch(`${SB_URL}/rest/v1/rpc/bump_pageviews`, { method: "POST", headers: SB_HJSON, body: "{}" });
+    if (res.ok) { pageViews = await res.json(); const s = document.querySelector(".stats"); if (s) s.replaceWith(statsNode()); }
+  } catch (e) {}
+}
+async function uploadPhoto(dataUrl) {
+  const blob = dataURLtoBlob(dataUrl);
+  const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.jpg`;
+  const res = await fetch(`${SB_URL}/storage/v1/object/ganesha-photos/${path}`, {
+    method: "POST",
+    headers: { apikey: SB_KEY, Authorization: "Bearer " + SB_KEY, "Content-Type": "image/jpeg", "x-upsert": "true" },
+    body: blob
+  });
+  if (!res.ok) throw new Error("upload failed");
+  return `${SB_URL}/storage/v1/object/public/ganesha-photos/${path}`;
+}
+function dataURLtoBlob(dataUrl) {
+  const [head, b64] = dataUrl.split(",");
+  const mime = (head.match(/:(.*?);/) || [])[1] || "image/jpeg";
+  const bin = atob(b64);
+  const arr = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+  return new Blob([arr], { type: mime });
+}
 
 /* ---------------- i18n ---------------- */
 let lang = "en";
@@ -122,6 +173,8 @@ const STR = {
     f_submit: "Add my Ganesha",
     map_fail_add: "The map could not load. You can still enter coordinates above.",
     save_photo_big: "Your Ganesha was added, but the photo was too large to store on this device.",
+    saving: "Saving…",
+    submit_fail: "Sorry, that couldn't be saved. Please check your connection and try again.",
     fp_empty: "Paste a Google Maps link first.",
     fp_placed: "Pin placed at {lat}, {lng}. Confirm it on the map.",
     fp_short: "Short links don't carry the coordinates. Open the link in Google Maps, then copy the full link from the address bar and paste it here.",
@@ -236,6 +289,8 @@ const STR = {
     f_submit: "ನನ್ನ ಗಣೇಶನನ್ನು ಸೇರಿಸಿ",
     map_fail_add: "ನಕ್ಷೆ ಲೋಡ್ ಆಗಲಿಲ್ಲ. ಮೇಲೆ ನಿರ್ದೇಶಾಂಕಗಳನ್ನು ನಮೂದಿಸಬಹುದು.",
     save_photo_big: "ನಿಮ್ಮ ಗಣೇಶನನ್ನು ಸೇರಿಸಲಾಗಿದೆ, ಆದರೆ ಫೋಟೋ ಈ ಸಾಧನದಲ್ಲಿ ಸಂಗ್ರಹಿಸಲು ತುಂಬಾ ದೊಡ್ಡದಾಗಿತ್ತು.",
+    saving: "ಉಳಿಸಲಾಗುತ್ತಿದೆ…",
+    submit_fail: "ಕ್ಷಮಿಸಿ, ಅದನ್ನು ಉಳಿಸಲಾಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಸಂಪರ್ಕ ಪರಿಶೀಲಿಸಿ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
     fp_empty: "ಮೊದಲು ಗೂಗಲ್ ನಕ್ಷೆ ಲಿಂಕ್ ಅಂಟಿಸಿ.",
     fp_placed: "ಪಿನ್ {lat}, {lng} ನಲ್ಲಿ ಇಡಲಾಗಿದೆ. ನಕ್ಷೆಯಲ್ಲಿ ದೃಢೀಕರಿಸಿ.",
     fp_short: "ಚಿಕ್ಕ ಲಿಂಕ್‌ಗಳಲ್ಲಿ ನಿರ್ದೇಶಾಂಕಗಳಿರುವುದಿಲ್ಲ. ಲಿಂಕ್ ಅನ್ನು ಗೂಗಲ್ ನಕ್ಷೆಯಲ್ಲಿ ತೆರೆದು, ವಿಳಾಸ ಪಟ್ಟಿಯಿಂದ ಪೂರ್ಣ ಲಿಂಕ್ ಅನ್ನು ನಕಲಿಸಿ ಇಲ್ಲಿ ಅಂಟಿಸಿ.",
@@ -273,10 +328,7 @@ let state = { query: "", type: "all", sort: "popular", selected: null };
 
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
-function storedPandals() {
-  try { return JSON.parse(localStorage.getItem("mysuru-pandals") || "[]"); } catch { return []; }
-}
-function pandals() { return [...defaults, ...storedPandals()]; }
+function pandals() { return remote === null ? defaults : remote; }
 function likedIds() {
   try { return new Set(JSON.parse(localStorage.getItem("mysuru-favourites") || "[]")); } catch { return new Set(); }
 }
@@ -292,7 +344,7 @@ function bumpShare(id) {
 }
 function withLikes() {
   const liked = likedIds();
-  return pandals().map(p => ({ ...p, likes: p.likes + (liked.has(p.id) ? 1 : 0), liked: liked.has(p.id) }));
+  return pandals().map(p => ({ ...p, liked: liked.has(p.id) }));
 }
 function filtered() {
   const q = state.query.toLowerCase().trim();
@@ -366,19 +418,18 @@ function renderHome() {
   renderMap();
   renderLoved();
   const pid = new URLSearchParams(location.search).get("p");
-  if (pid !== null) {
-    const id = Number(pid);
-    if (withLikes().some(x => x.id === id)) selectPandal(id);
+  if (pid) {
+    if (withLikes().some(x => String(x.id) === pid)) selectPandal(pid);
   }
 }
 
 function renderList() {
   const rows = filtered();
   document.querySelector("#list").innerHTML = rows.length ? rows.map(card).join("") : `<p class="empty">${esc(t("empty_list"))}</p>`;
-  document.querySelectorAll("[data-select]").forEach(btn => btn.addEventListener("click", () => selectPandal(Number(btn.dataset.select))));
+  document.querySelectorAll("[data-select]").forEach(btn => btn.addEventListener("click", () => selectPandal(btn.dataset.select)));
   document.querySelectorAll("[data-like]").forEach(btn => btn.addEventListener("click", event => {
     event.stopPropagation();
-    toggleLike(Number(btn.dataset.like));
+    toggleLike(btn.dataset.like);
     renderList();
     renderLoved();
     refreshMarkers();
@@ -389,8 +440,16 @@ function renderList() {
 
 function toggleLike(id) {
   const ids = likedIds();
-  ids.has(id) ? ids.delete(id) : ids.add(id);
+  const wasLiked = ids.has(id);
+  wasLiked ? ids.delete(id) : ids.add(id);
   saveLikes(ids);
+  const p = (remote || []).find(x => x.id === id);
+  if (p) p.likes = Math.max(0, (p.likes || 0) + (wasLiked ? -1 : 1));
+  if (remote !== null) {
+    fetch(`${SB_URL}/rest/v1/rpc/${wasLiked ? "unlike_ganesha" : "like_ganesha"}`, {
+      method: "POST", headers: SB_HJSON, body: JSON.stringify({ gid: id })
+    }).catch(() => {});
+  }
 }
 
 function card(p) {
@@ -658,17 +717,18 @@ function renderLoved() {
   wrap.innerHTML = `<div class="loved-head"><h2>${esc(t("loved_head"))}</h2><a href="/leaderboard/" data-route>${esc(t("see_all"))}</a></div>
     <div class="loved-grid">${rows.map((p, i) => `<button class="loved-card" data-select="${p.id}"><span class="medal">${i + 1}</span><span><strong>${esc(p.name)}</strong><small>${esc(p.area)}</small></span><span class="loved-likes">♡ ${p.likes}</span></button>`).join("")}</div>`;
   wrap.querySelectorAll("[data-select]").forEach(btn => btn.addEventListener("click", () => {
-    selectPandal(Number(btn.dataset.select));
+    selectPandal(btn.dataset.select);
     document.querySelector(".map-wrap").scrollIntoView({ behavior: "smooth", block: "center" });
   }));
 }
 
 function stats() {
   const total = withLikes().reduce((sum, p) => sum + p.likes, 0);
+  const views = pageViews != null ? Number(pageViews).toLocaleString(lang === "kn" ? "kn-IN" : "en-IN") : "…";
   return `<div class="stats">
     <span class="lead"><i class="dot apartment"></i>${esc(t("stats_lead"))}</span>
     <span>${nOnMap(pandals().length)}</span>
-    <span><strong>1,108</strong> ${esc(t("page_views"))}</span>
+    <span><strong>${views}</strong> ${esc(t("page_views"))}</span>
     <a href="/leaderboard/" data-route><strong>${total}</strong> ${esc(t("fav_suffix"))}</a>
   </div>`;
 }
@@ -762,19 +822,37 @@ function renderAdd() {
     formMap.on("click", e => { formMarker.setLatLng(e.latlng); syncLatLng(e.latlng); });
   }
   setupFindPin();
-  document.querySelector("#pandalForm").addEventListener("submit", event => {
+  const form = document.querySelector("#pandalForm");
+  form.addEventListener("submit", async event => {
     event.preventDefault();
-    const data = Object.fromEntries(new FormData(event.target));
-    const saved = storedPandals();
-    saved.push({ id: Date.now(), name: data.name, area: data.area, type: data.type, likes: 0, lat: Number(data.lat), lng: Number(data.lng), status: "Pending verification", photo: photoData, about: (data.about || "").trim(), timings: (data.timings || "").trim(), organiser: (data.organiser || "").trim(), visarjan: data.visarjan || "", access: data.access && data.access !== "Not confirmed" ? data.access : "", social: (data.social || "").trim(), events: collectEvents() });
+    const data = Object.fromEntries(new FormData(form));
+    const btn = form.querySelector("button[type=submit]");
+    const label = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = t("saving");
     try {
-      localStorage.setItem("mysuru-pandals", JSON.stringify(saved));
+      let photo_url = "";
+      if (photoData) photo_url = await uploadPhoto(photoData);
+      const row = {
+        name: data.name, area: data.area, type: data.type,
+        lat: Number(data.lat), lng: Number(data.lng),
+        about: (data.about || "").trim(), timings: (data.timings || "").trim(),
+        organiser: (data.organiser || "").trim(), visarjan: data.visarjan || "",
+        access: data.access && data.access !== "Not confirmed" ? data.access : "",
+        social: (data.social || "").trim(), events: collectEvents(),
+        photo_url, verified: false, likes: 0
+      };
+      const res = await fetch(`${SB_URL}/rest/v1/ganeshas`, { method: "POST", headers: { ...SB_HJSON, Prefer: "return=representation" }, body: JSON.stringify(row) });
+      if (!res.ok) throw new Error(await res.text());
+      const inserted = await res.json();
+      if (Array.isArray(remote) && inserted[0]) remote.unshift(mapRow(inserted[0]));
+      else await loadGaneshas();
+      navigate("/");
     } catch (err) {
-      saved[saved.length - 1].photo = "";
-      localStorage.setItem("mysuru-pandals", JSON.stringify(saved));
-      alert(t("save_photo_big"));
+      btn.disabled = false;
+      btn.textContent = label;
+      alert(t("submit_fail"));
     }
-    navigate("/");
   });
 }
 
@@ -789,7 +867,7 @@ function setupPhotoUpload() {
     const file = input.files && input.files[0];
     if (!file || !file.type.startsWith("image/")) return;
     const reader = new FileReader();
-    reader.onload = () => downscale(reader.result, 1000, 0.82).then(dataUrl => {
+    reader.onload = () => compressImage(reader.result, { maxBytes: PHOTO_MAX_BYTES, maxDim: 1400 }).then(dataUrl => {
       photoData = dataUrl;
       zone.classList.add("has-photo");
       zone.style.backgroundImage = `url("${dataUrl}")`;
@@ -806,19 +884,35 @@ function setupPhotoUpload() {
   });
 }
 
-function downscale(dataUrl, maxSize, quality) {
+// Target size for stored photos. ~900 KB keeps loads fast and fits many
+// listings in limited storage. Bump toward 1_500_000 for slightly sharper photos.
+const PHOTO_MAX_BYTES = 900000;
+
+// Compress an image to a JPEG under maxBytes: lower quality first, then shrink
+// dimensions, until it fits. Returns a data URL.
+function compressImage(dataUrl, opts) {
+  const maxBytes = (opts && opts.maxBytes) || 900000;
+  const startDim = (opts && opts.maxDim) || 1400;
   return new Promise(resolve => {
     const img = new Image();
     img.onload = () => {
-      const scale = Math.min(1, maxSize / Math.max(img.width, img.height));
-      const w = Math.round(img.width * scale);
-      const h = Math.round(img.height * scale);
-      const canvas = document.createElement("canvas");
-      canvas.width = w;
-      canvas.height = h;
-      canvas.getContext("2d").drawImage(img, 0, 0, w, h);
-      try { resolve(canvas.toDataURL("image/jpeg", quality)); }
-      catch { resolve(dataUrl); }
+      const render = (dim, q) => {
+        const scale = Math.min(1, dim / Math.max(img.width, img.height));
+        const w = Math.max(1, Math.round(img.width * scale));
+        const h = Math.max(1, Math.round(img.height * scale));
+        const canvas = document.createElement("canvas");
+        canvas.width = w;
+        canvas.height = h;
+        canvas.getContext("2d").drawImage(img, 0, 0, w, h);
+        try { return canvas.toDataURL("image/jpeg", q); } catch { return null; }
+      };
+      const bytesOf = u => Math.ceil((u.length - (u.indexOf(",") + 1)) * 0.75);
+      let dim = startDim, q = 0.82;
+      let out = render(dim, q);
+      if (!out) { resolve(dataUrl); return; }
+      while (bytesOf(out) > maxBytes && q > 0.4) { q -= 0.1; out = render(dim, q) || out; }
+      while (bytesOf(out) > maxBytes && dim > 640) { dim = Math.round(dim * 0.82); out = render(dim, q) || out; }
+      resolve(out);
     };
     img.onerror = () => resolve(dataUrl);
     img.src = dataUrl;
@@ -942,5 +1036,10 @@ if (langToggle) langToggle.addEventListener("click", () => {
   render();
 });
 
-applyStatic();
-render();
+async function init() {
+  await loadGaneshas();
+  applyStatic();
+  render();
+  bumpPageViews();
+}
+init();
