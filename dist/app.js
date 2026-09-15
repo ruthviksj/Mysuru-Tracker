@@ -182,6 +182,7 @@ const STR = {
     save_photo_big: "Your Ganesha was added, but the photo was too large to store on this device.",
     saving: "Saving…",
     submit_fail: "Sorry, that couldn't be saved. Please check your connection and try again.",
+    photo_upload_fail: "Added, but the photo couldn't be uploaded.",
     fp_empty: "Paste a Google Maps link first.",
     fp_placed: "Pin placed at {lat}, {lng}. Confirm it on the map.",
     fp_resolving: "Finding the location…",
@@ -310,6 +311,7 @@ const STR = {
     save_photo_big: "ನಿಮ್ಮ ಗಣೇಶನನ್ನು ಸೇರಿಸಲಾಗಿದೆ, ಆದರೆ ಫೋಟೋ ಈ ಸಾಧನದಲ್ಲಿ ಸಂಗ್ರಹಿಸಲು ತುಂಬಾ ದೊಡ್ಡದಾಗಿತ್ತು.",
     saving: "ಉಳಿಸಲಾಗುತ್ತಿದೆ…",
     submit_fail: "ಕ್ಷಮಿಸಿ, ಅದನ್ನು ಉಳಿಸಲಾಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಸಂಪರ್ಕ ಪರಿಶೀಲಿಸಿ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
+    photo_upload_fail: "ಸೇರಿಸಲಾಗಿದೆ, ಆದರೆ ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಆಗಲಿಲ್ಲ.",
     fp_empty: "ಮೊದಲು ಗೂಗಲ್ ನಕ್ಷೆ ಲಿಂಕ್ ಅಂಟಿಸಿ.",
     fp_placed: "ಪಿನ್ {lat}, {lng} ನಲ್ಲಿ ಇಡಲಾಗಿದೆ. ನಕ್ಷೆಯಲ್ಲಿ ದೃಢೀಕರಿಸಿ.",
     fp_resolving: "ಸ್ಥಳವನ್ನು ಹುಡುಕಲಾಗುತ್ತಿದೆ…",
@@ -906,7 +908,11 @@ function renderAdd() {
     btn.textContent = t("saving");
     try {
       let photo_url = "";
-      if (photoData) photo_url = await uploadPhoto(photoData);
+      let photoFailed = false;
+      if (photoData) {
+        try { photo_url = await uploadPhoto(photoData); }
+        catch (e) { photoFailed = true; }  // don't lose the whole submission over a photo
+      }
       const row = {
         name: data.name, area: data.area, type: data.type,
         lat: Number(data.lat), lng: Number(data.lng),
@@ -922,6 +928,7 @@ function renderAdd() {
       if (Array.isArray(remote) && inserted[0]) remote.unshift(mapRow(inserted[0]));
       else await loadGaneshas();
       navigate("/");
+      if (photoFailed) toast(t("photo_upload_fail"));
     } catch (err) {
       btn.disabled = false;
       btn.textContent = label;
