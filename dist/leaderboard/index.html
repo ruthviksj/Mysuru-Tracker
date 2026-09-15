@@ -4,12 +4,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Mysuru community favourites · GaneshaTracker</title>
-    <meta name="description" content="See Mysuru's most-loved Ganesh pandals during Ganesh Chaturthi.">
+    <meta name="description" content="See Mysuru's most-loved Ganeshas during Ganesh Chaturthi.">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23fff8ec'/%3E%3Cpath d='M19 35c0-11 8-20 18-20 8 0 14 6 14 14 0 6-4 11-10 11h-7c-3 0-5 2-5 5 0 4 3 6 7 6' fill='none' stroke='%23b65432' stroke-width='5' stroke-linecap='round'/%3E%3Ccircle cx='26' cy='28' r='3' fill='%23b65432'/%3E%3Cpath d='M15 22c-4 4-5 10-2 15M48 19c5 4 6 12 2 18' fill='none' stroke='%23d19a42' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600;700;800&display=swap">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
     <link rel="stylesheet" href="/styles.css">
   </head>
   <body>
@@ -17,26 +19,28 @@
     <header class="site-header">
       <a class="brand" href="/" data-route>
         <span class="brand-mark" aria-hidden="true">ॐ</span>
-        <span><strong>GaneshaTracker</strong><small>MYSURU, TOGETHER.</small></span>
+        <span><strong>GaneshaTracker</strong><small data-i18n="brand_tag">MYSURU, TOGETHER.</small></span>
       </a>
       <nav aria-label="Main navigation">
-        <a href="/" data-route data-nav="home">Explore pandals</a>
-        <a href="/leaderboard/" data-route data-nav="leaderboard">Community favourites</a>
+        <a href="/" data-route data-nav="home" data-i18n="nav_explore">Explore Ganeshas</a>
+        <a href="/leaderboard/" data-route data-nav="leaderboard" data-i18n="nav_favourites">Community favourites</a>
       </nav>
-      <div class="season">Mysuru · 2026</div>
-      <a class="add-link" href="/add/" data-route>+ Add a pandal</a>
+      <div class="season" data-i18n="season">Mysuru · 2026</div>
+      <button class="lang-toggle" id="langToggle" type="button">ಕನ್ನಡ</button>
+      <a class="add-link" href="/add/" data-route data-i18n="nav_add">+ Add a Ganesha</a>
     </header>
 
     <main id="app"></main>
 
     <footer>
-      <span>Made with <span aria-hidden="true">♡</span> for Mysuru.</span>
-      <strong>Ganapati Bappa Morya!</strong>
-      <button type="button" class="modak">Buy me some modaks</button>
-      <a href="/admin/" class="owner">Owner access</a>
+      <span data-i18n="foot_made">Made with ♡ for Mysuru.</span>
+      <strong data-i18n="foot_chant">Ganapati Bappa Morya!</strong>
+      <button type="button" class="modak" data-i18n="foot_modak">Buy me some modaks</button>
+      <a href="/admin/" class="owner" data-i18n="foot_owner">Owner access</a>
     </footer>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
     <script src="/app.js"></script>
   </body>
 </html>
