@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>GaneshaTracker · Moderation</title>
+<style>
+  :root{
+    --brick:#b65432; --brick-deep:#8f3d22; --saffron:#d19a42; --green:#4b7d54;
+    --ink:#2c211b; --ink-soft:#6b5b50; --cream:#fff3e0; --paper:#fffaf2;
+    --card:#ffffff; --line:#eaddcb; --line-strong:#d8c6ad; --rose:#c0563f;
+    --r:14px; --sans:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    --serif:"Fraunces",Georgia,serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:var(--sans);color:var(--ink);background:var(--paper);
+    background-image:radial-gradient(1200px 500px at 100% -10%,#fff6e6 0,transparent 60%);}
+  a{color:var(--brick)}
+  .wrap{max-width:1040px;margin:0 auto;padding:22px 18px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+  .title{font-family:var(--serif);font-weight:700;font-size:26px;letter-spacing:-.01em}
+  .title small{display:block;font-family:var(--sans);font-weight:600;font-size:11px;letter-spacing:.14em;color:var(--saffron);text-transform:uppercase}
+  .pill{font-size:12px;font-weight:700;padding:5px 11px;border-radius:999px;background:var(--cream);color:var(--brick-deep)}
+  /* gate */
+  .gate{max-width:420px;margin:8vh auto;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:26px;box-shadow:0 18px 40px -26px rgba(90,50,20,.5)}
+  .gate h1{font-family:var(--serif);margin:0 0 4px;font-size:24px}
+  .gate p{margin:0 0 18px;color:var(--ink-soft);font-size:14px;line-height:1.5}
+  label{display:block;font-size:12.5px;font-weight:700;color:var(--ink-soft);margin:0 0 5px}
+  input,select,textarea{width:100%;font:inherit;color:var(--ink);background:#fff;border:1.5px solid var(--line-strong);border-radius:10px;padding:9px 11px}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--saffron);box-shadow:0 0 0 3px rgba(209,154,66,.18)}
+  textarea{min-height:64px;resize:vertical}
+  button{font:inherit;font-weight:700;cursor:pointer;border:none;border-radius:10px;padding:9px 15px;background:var(--brick);color:#fff}
+  button.ghost{background:#fff;color:var(--brick);border:1.5px solid var(--line-strong)}
+  button.soft{background:var(--cream);color:var(--brick-deep)}
+  button.danger{background:#fff;color:var(--rose);border:1.5px solid #eabfb4}
+  button.danger.armed{background:var(--rose);color:#fff;border-color:var(--rose)}
+  button:disabled{opacity:.5;cursor:default}
+  .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+  .toolbar input.search{max-width:300px}
+  .count{color:var(--ink-soft);font-size:13px;font-weight:600}
+  .grid{display:grid;gap:14px}
+  .row{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;display:grid;gap:10px}
+  .row.pending{border-color:var(--saffron);box-shadow:inset 3px 0 0 var(--saffron)}
+  .rhead{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .rname{font-family:var(--serif);font-size:18px;font-weight:600;margin:0}
+  .rmeta{font-size:12.5px;color:var(--ink-soft);margin-top:2px}
+  .badges{display:flex;gap:6px;flex-wrap:wrap}
+  .badge{font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px}
+  .badge.ver{background:#e7f1e9;color:var(--green)}
+  .badge.pend{background:#fdeccd;color:#9a6a17}
+  .badge.type{background:var(--cream);color:var(--brick-deep)}
+  .ractions{display:flex;gap:8px;flex-wrap:wrap}
+  .edit{display:none;gap:10px;border-top:1px dashed var(--line-strong);padding-top:12px}
+  .edit.open{display:grid}
+  .fg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .fg3{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end}
+  .full{grid-column:1/-1}
+  .linkfix{display:flex;gap:8px;flex-wrap:wrap;align-items:end;background:var(--cream);padding:10px;border-radius:10px}
+  .linkfix input{background:#fff}
+  .msg{font-size:12.5px;font-weight:600;min-height:16px}
+  .msg.ok{color:var(--green)} .msg.err{color:var(--rose)}
+  .savebar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .thumb{width:46px;height:46px;border-radius:10px;object-fit:cover;background:var(--cream);flex:0 0 auto}
+  .empty{text-align:center;color:var(--ink-soft);padding:40px}
+  @media(max-width:560px){.fg,.fg3{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div id="gate" class="gate">
+  <h1>Moderation</h1>
+  <p>Enter the moderation passphrase. It is checked on the server and never stored in the page's code.</p>
+  <label for="secret">Passphrase</label>
+  <input id="secret" type="password" autocomplete="off" placeholder="••••••••">
+  <div class="msg err" id="gateMsg"></div>
+  <div style="margin-top:14px"><button id="enter">Enter</button></div>
+</div>
+
+<div id="panel" class="wrap" hidden>
+  <header class="top">
+    <div class="title">GaneshaTracker<small>Moderation console</small></div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <span class="pill" id="statPill">–</span>
+      <button class="ghost" id="reload">Reload</button>
+      <button class="soft" id="logout">Lock</button>
+    </div>
+  </header>
+  <div class="toolbar">
+    <input class="search" id="search" placeholder="Search name or area…">
+    <label style="display:flex;align-items:center;gap:6px;margin:0;font-weight:600;color:var(--ink-soft)">
+      <input type="checkbox" id="onlyPending" style="width:auto"> Pending only
+    </label>
+    <span class="count" id="count"></span>
+  </div>
+  <div class="grid" id="list"></div>
+  <div class="empty" id="empty" hidden>Nothing here.</div>
+</div>
+
+<script>
+const API = "/api/admin", RESOLVE = "/api/resolve";
+let SECRET = "";
+let ROWS = [];
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+async function api(payload){
+  const r = await fetch(API,{method:"POST",headers:{"Content-Type":"application/json","x-admin-secret":SECRET},body:JSON.stringify(payload)});
+  const data = await r.json().catch(()=>({error:"bad response"}));
+  if(!r.ok) throw new Error(data && data.error ? data.error : ("HTTP "+r.status));
+  return data;
+}
+
+$("#enter").addEventListener("click", tryEnter);
+$("#secret").addEventListener("keydown", e=>{ if(e.key==="Enter") tryEnter(); });
+async function tryEnter(){
+  SECRET = $("#secret").value.trim();
+  if(!SECRET){ $("#gateMsg").textContent="Enter the passphrase."; return; }
+  $("#gateMsg").textContent="Checking…";
+  try{
+    await load();
+    try{ sessionStorage.setItem("gt-admin", SECRET); }catch(e){}
+    $("#gate").hidden = true; $("#panel").hidden = false;
+  }catch(e){
+    $("#gateMsg").textContent = /unauthor/i.test(e.message) ? "Wrong passphrase." : ("Could not load: "+e.message);
+  }
+}
+
+async function load(){
+  ROWS = await api({action:"list"});
+  if(!Array.isArray(ROWS)) throw new Error("unexpected response");
+  render();
+}
+
+function statCounts(){
+  const total = ROWS.length, ver = ROWS.filter(r=>r.verified).length;
+  return {total, ver, pend: total-ver};
+}
+function render(){
+  const q = $("#search").value.trim().toLowerCase();
+  const onlyPending = $("#onlyPending").checked;
+  const list = ROWS.filter(r=>{
+    if(onlyPending && r.verified) return false;
+    if(!q) return true;
+    return (r.name||"").toLowerCase().includes(q) || (r.area||"").toLowerCase().includes(q);
+  });
+  const c = statCounts();
+  $("#statPill").textContent = `${c.total} total · ${c.pend} pending`;
+  $("#count").textContent = `${list.length} shown`;
+  $("#empty").hidden = list.length>0;
+  $("#list").innerHTML = list.map(cardHtml).join("");
+  list.forEach(r=>wire(r.id));
+}
+
+function cardHtml(r){
+  const pend = !r.verified;
+  const thumb = r.photo_url ? `<img class="thumb" src="${esc(r.photo_url)}" alt="">` : `<div class="thumb"></div>`;
+  return `
+  <div class="row ${pend?"pending":""}" data-id="${esc(r.id)}">
+    <div class="rhead">
+      <div style="display:flex;gap:12px">
+        ${thumb}
+        <div>
+          <p class="rname">${esc(r.name||"(no name)")}</p>
+          <div class="rmeta">${esc(r.area||"")} · ${(+r.lat).toFixed(5)}, ${(+r.lng).toFixed(5)}</div>
+        </div>
+      </div>
+      <div class="badges">
+        <span class="badge type">${esc(r.type||"")}</span>
+        <span class="badge ${pend?"pend":"ver"}">${pend?"Pending":"Verified"}</span>
+      </div>
+    </div>
+    <div class="ractions">
+      <button class="ghost" data-act="edit">Edit</button>
+      <button class="soft" data-act="verify">${pend?"✓ Verify":"Unverify"}</button>
+      <button class="danger" data-act="del">Delete</button>
+    </div>
+    <div class="edit" data-edit>
+      <div class="linkfix">
+        <div style="flex:1;min-width:200px">
+          <label>Paste a Google Maps / Instagram link to set the pin</label>
+          <input data-f="linkfix" placeholder="maps.app.goo.gl/… or l.instagram.com/…">
+        </div>
+        <button class="ghost" data-act="resolve">Get coords</button>
+      </div>
+      <div class="fg">
+        <div><label>Name</label><input data-f="name" value="${esc(r.name)}"></div>
+        <div><label>Area</label><input data-f="area" value="${esc(r.area)}"></div>
+      </div>
+      <div class="fg3">
+        <div><label>Latitude</label><input data-f="lat" value="${esc(r.lat)}"></div>
+        <div><label>Longitude</label><input data-f="lng" value="${esc(r.lng)}"></div>
+        <div><label>Type</label><select data-f="type">
+          ${["Community","Temple","Apartment","Other"].map(t=>`<option ${t===r.type?"selected":""}>${t}</option>`).join("")}
+        </select></div>
+      </div>
+      <div class="fg">
+        <div><label>Timings</label><input data-f="timings" value="${esc(r.timings)}"></div>
+        <div><label>Visarjan date</label><input data-f="visarjan" type="date" value="${esc((r.visarjan||"").slice(0,10))}"></div>
+      </div>
+      <div class="fg">
+        <div><label>Organiser</label><input data-f="organiser" value="${esc(r.organiser)}"></div>
+        <div><label>Access</label><input data-f="access" value="${esc(r.access)}"></div>
+      </div>
+      <div class="full"><label>Social link</label><input data-f="social" value="${esc(r.social)}"></div>
+      <div class="full"><label>Added by</label><input data-f="added_by" value="${esc(r.added_by)}"></div>
+      <div class="full"><label>Photo URL</label><input data-f="photo_url" value="${esc(r.photo_url)}"></div>
+      <div class="full"><label>About</label><textarea data-f="about">${esc(r.about)}</textarea></div>
+      <div class="savebar">
+        <button data-act="save">Save changes</button>
+        <button class="ghost" data-act="close">Cancel</button>
+        <span class="msg" data-msg></span>
+      </div>
+    </div>
+  </div>`;
+}
+
+function wire(id){
+  const row = document.querySelector(`.row[data-id="${cssId(id)}"]`);
+  if(!row) return;
+  const editBox = row.querySelector("[data-edit]");
+  const msg = row.querySelector("[data-msg]");
+  const rec = ROWS.find(r=>r.id===id);
+  const setMsg = (t,cls)=>{ msg.textContent=t; msg.className="msg "+(cls||""); };
+
+  row.querySelector('[data-act="edit"]').onclick = ()=> editBox.classList.toggle("open");
+  row.querySelector('[data-act="close"]').onclick = ()=> editBox.classList.remove("open");
+
+  row.querySelector('[data-act="resolve"]').onclick = async ()=>{
+    const link = row.querySelector('[data-f="linkfix"]').value.trim();
+    if(!link){ setMsg("Paste a link first.","err"); return; }
+    setMsg("Resolving…","");
+    try{
+      const r = await fetch(RESOLVE+"?url="+encodeURIComponent(link));
+      const d = await r.json();
+      if(!r.ok || d.lat==null) throw new Error(d.error||"no coords");
+      row.querySelector('[data-f="lat"]').value = d.lat;
+      row.querySelector('[data-f="lng"]').value = d.lng;
+      setMsg(`Found ${d.lat.toFixed(5)}, ${d.lng.toFixed(5)} — review, then Save.`,"ok");
+    }catch(e){ setMsg("Could not resolve that link: "+e.message,"err"); }
+  };
+
+  row.querySelector('[data-act="save"]').onclick = async (ev)=>{
+    const btn = ev.currentTarget; btn.disabled=true; setMsg("Saving…","");
+    const fields={};
+    row.querySelectorAll("[data-f]").forEach(el=>{ if(el.dataset.f!=="linkfix") fields[el.dataset.f]=el.value; });
+    try{
+      const updated = await api({action:"update", id, fields});
+      Object.assign(rec, updated);
+      setMsg("Saved.","ok");
+      setTimeout(()=>{ render(); }, 600);
+    }catch(e){ setMsg("Save failed: "+e.message,"err"); btn.disabled=false; }
+  };
+
+  row.querySelector('[data-act="verify"]').onclick = async (ev)=>{
+    const btn=ev.currentTarget; btn.disabled=true;
+    try{
+      const updated = await api({action:"update", id, fields:{verified: !rec.verified}});
+      Object.assign(rec, updated); render();
+    }catch(e){ btn.disabled=false; alertRow(row,"Verify failed: "+e.message); }
+  };
+
+  // two-click delete (no blocking dialog)
+  let armed=false, t=null;
+  const delBtn = row.querySelector('[data-act="del"]');
+  delBtn.onclick = async ()=>{
+    if(!armed){ armed=true; delBtn.classList.add("armed"); delBtn.textContent="Click again to delete"; t=setTimeout(()=>{armed=false;delBtn.classList.remove("armed");delBtn.textContent="Delete";},3500); return; }
+    clearTimeout(t); delBtn.disabled=true; delBtn.textContent="Deleting…";
+    try{
+      await api({action:"delete", id});
+      ROWS = ROWS.filter(r=>r.id!==id); render();
+    }catch(e){ delBtn.disabled=false; delBtn.textContent="Delete"; armed=false; delBtn.classList.remove("armed"); alertRow(row,"Delete failed: "+e.message); }
+  };
+}
+function alertRow(row,text){ let m=row.querySelector("[data-msg]"); if(m){m.textContent=text;m.className="msg err";} }
+function cssId(id){ return String(id).replace(/"/g,'\\"'); }
+
+$("#search").addEventListener("input", render);
+$("#onlyPending").addEventListener("change", render);
+$("#reload").addEventListener("click", ()=>load().catch(e=>$("#statPill").textContent="reload failed"));
+$("#logout").addEventListener("click", ()=>{ try{sessionStorage.removeItem("gt-admin");}catch(e){} location.reload(); });
+
+// auto-resume within the tab session
+(function(){ try{ const s=sessionStorage.getItem("gt-admin"); if(s){ SECRET=s; load().then(()=>{ $("#gate").hidden=true; $("#panel").hidden=false; }).catch(()=>{}); } }catch(e){} })();
+</script>
+</body>
+</html>
