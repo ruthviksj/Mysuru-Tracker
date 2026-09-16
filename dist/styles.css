@@ -528,7 +528,7 @@ h1 span { color: var(--brick); font-style: italic; }
   height: 40px;
   border-radius: 50%;
   border: 3px solid #fff;
-  background: radial-gradient(circle at 32% 28%, #c65733, var(--brick));
+  background: radial-gradient(circle at 32% 28%, #43b25a, #2e8b45);
   color: #fff;
   font-weight: 800;
   font-size: 14px;
@@ -557,7 +557,7 @@ h1 span { color: var(--brick); font-style: italic; }
   transition: transform .12s ease;
 }
 .pin:hover { transform: rotate(-45deg) scale(1.12); }
-.pin.active { transform: rotate(-45deg) scale(1.22); box-shadow: 0 0 0 4px rgba(168, 60, 34, .35), 0 10px 20px rgba(60, 30, 16, .4); z-index: 1000; }
+.pin.active { transform: rotate(-45deg) scale(1.22); box-shadow: 0 0 0 4px rgba(47, 158, 68, .38), 0 10px 20px rgba(20, 60, 30, .4); z-index: 1000; }
 .pin span { transform: rotate(45deg); font-size: 15px; }
 
 /* Detail panel */

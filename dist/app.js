@@ -638,7 +638,7 @@ function refreshMarkers() {
 }
 
 function pinIcon(p, active = false) {
-  const color = p.type === "Temple" ? "#cf9a2e" : p.type === "Apartment" ? "#3f6b5a" : p.type === "Other" ? "#2f7ca6" : "#a83c22";
+  const color = p.type === "Temple" ? "#cf9a2e" : p.type === "Apartment" ? "#3f6b5a" : p.type === "Other" ? "#2f7ca6" : "#2f9e44";
   return L.divIcon({ className: "pin-wrap", html: `<div class="pin${active ? " active" : ""}" style="background:${color}"><span>${typeMarks[p.type] || "✿"}</span></div>`, iconSize: [34, 34], iconAnchor: [17, 34], popupAnchor: [0, -32] });
 }
 
