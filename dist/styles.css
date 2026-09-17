@@ -850,8 +850,24 @@ h1 span { color: var(--brick); font-style: italic; }
 .coffee-qr.placeholder { display: grid; place-items: center; width: 190px; height: 190px; margin: 0 auto; border: 1.5px dashed var(--line-strong); color: var(--muted); font-size: 13px; text-align: center; padding: 16px; }
 .coffee-scan { margin-top: 10px; color: var(--muted); font-size: 12px; }
 .coffee-upi { margin-top: 6px; font-size: 13px; font-weight: 600; color: var(--ink-soft); word-break: break-all; }
-.coffee-total { font-size: 15px; color: var(--muted); }
+.coffee-total { font-size: 15px; color: var(--muted); margin-bottom: 14px; }
 .coffee-total strong { color: var(--brick); font-family: var(--serif); font-size: 18px; }
+.coffee-apps { display: grid; gap: 10px; margin-bottom: 12px; }
+.coffee-app { display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; font-weight: 700; border-radius: 12px; padding: 13px 16px; border: 1.5px solid var(--line-strong); background: #fff; color: var(--ink); transition: transform .12s ease, box-shadow .12s ease; }
+.coffee-app:hover { transform: translateY(-1px); }
+.coffee-app.primary { background: linear-gradient(180deg, #c96a3f, var(--brick)); color: #fff; border-color: transparent; font-size: 16px; box-shadow: 0 10px 22px -10px rgba(150, 60, 30, .6); }
+.coffee-app.primary strong { color: #fff; }
+.coffee-app-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.coffee-app-row .coffee-app { flex-direction: column; gap: 4px; font-size: 12px; padding: 10px 4px; }
+.coffee-app-row .coffee-app span { font-size: 16px; }
+.coffee-qr-toggle { display: block; margin: 4px auto 0; background: none; border: none; color: var(--brick); font-weight: 700; font-size: 13.5px; cursor: pointer; text-decoration: underline; padding: 6px; }
+.coffee-qrbox { text-align: center; padding-top: 8px; }
+.coffee-upi-row { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+.coffee-upi-row .coffee-upi { margin: 0; }
+.coffee-copy { border: 1px solid var(--line-strong); background: var(--cream); color: var(--brick-deep); border-radius: 999px; padding: 5px 12px; font-weight: 700; font-size: 12.5px; cursor: pointer; }
+.coffee-copy.done { background: #e7f1e9; color: var(--green); border-color: #bfe0c8; }
+.coffee-desktop { color: var(--ink-soft); font-size: 13px; margin: 0 0 12px; line-height: 1.5; }
+.coffee-note { color: var(--muted); font-size: 11.5px; margin: 12px 0 0; line-height: 1.5; }
 .steam path { animation: steam 2.6s ease-in-out infinite; }
 .steam path:nth-child(2) { animation-delay: .6s; }
 .steam path:nth-child(3) { animation-delay: 1.2s; }

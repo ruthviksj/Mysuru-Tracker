@@ -96,11 +96,18 @@ const STR = {
     foot_privacy: "Privacy",
     foot_terms: "Terms",
     coffee_title: "If you like my work, buy me a filter coffee.",
-    coffee_sub: "Pick a round, then scan with any UPI app.",
+    coffee_sub: "Pick a round, then pay in your UPI app.",
     coffee_word: "Coffee",
     coffee_selected: "selected",
     coffee_scan: "Scan to pay with any UPI app",
     coffee_qr_soon: "UPI QR coming soon",
+    coffee_pay_any: "Open UPI app",
+    coffee_show_qr: "Show QR to scan",
+    coffee_hide_qr: "Hide QR",
+    coffee_copy: "Copy UPI ID",
+    coffee_copied: "Copied",
+    coffee_desktop: "On your phone? Open this page there to pay in one tap. Or scan the QR:",
+    coffee_note: "Amount is pre-filled. You confirm the payment inside your own app.",
     home_eyebrow: "Ganesh Chaturthi · 2026",
     home_headline: "A royal city full of <span>Ganeshas.</span>",
     home_lede: "Find a Ganesha. Feel the celebration. Be part of it.",
@@ -242,11 +249,18 @@ const STR = {
     foot_privacy: "ಗೌಪ್ಯತೆ",
     foot_terms: "ನಿಯಮಗಳು",
     coffee_title: "ನನ್ನ ಕೆಲಸ ಇಷ್ಟವಾದರೆ, ನನಗೆ ಒಂದು ಫಿಲ್ಟರ್ ಕಾಫಿ ಕೊಡಿಸಿ.",
-    coffee_sub: "ಒಂದು ಸುತ್ತು ಆಯ್ಕೆಮಾಡಿ, ನಂತರ ಯಾವುದೇ UPI ಆ್ಯಪ್‌ನಲ್ಲಿ ಸ್ಕ್ಯಾನ್ ಮಾಡಿ.",
+    coffee_sub: "ಒಂದು ಸುತ್ತು ಆಯ್ಕೆಮಾಡಿ, ನಂತರ ನಿಮ್ಮ UPI ಆ್ಯಪ್‌ನಲ್ಲಿ ಪಾವತಿಸಿ.",
     coffee_word: "ಕಾಫಿ",
     coffee_selected: "ಆಯ್ಕೆಯಾಗಿದೆ",
     coffee_scan: "ಯಾವುದೇ UPI ಆ್ಯಪ್‌ನಲ್ಲಿ ಪಾವತಿಸಲು ಸ್ಕ್ಯಾನ್ ಮಾಡಿ",
     coffee_qr_soon: "UPI QR ಶೀಘ್ರದಲ್ಲೇ",
+    coffee_pay_any: "UPI ಆ್ಯಪ್ ತೆರೆಯಿರಿ",
+    coffee_show_qr: "ಸ್ಕ್ಯಾನ್ ಮಾಡಲು QR ತೋರಿಸಿ",
+    coffee_hide_qr: "QR ಮರೆಮಾಡಿ",
+    coffee_copy: "UPI ID ನಕಲಿಸಿ",
+    coffee_copied: "ನಕಲಾಗಿದೆ",
+    coffee_desktop: "ನಿಮ್ಮ ಫೋನ್‌ನಲ್ಲಿ? ಈ ಪುಟವನ್ನು ಅಲ್ಲಿ ತೆರೆದು ಒಂದೇ ಟ್ಯಾಪ್‌ನಲ್ಲಿ ಪಾವತಿಸಿ. ಅಥವಾ QR ಸ್ಕ್ಯಾನ್ ಮಾಡಿ:",
+    coffee_note: "ಮೊತ್ತ ಮೊದಲೇ ತುಂಬಿದೆ. ನಿಮ್ಮ ಆ್ಯಪ್‌ನಲ್ಲಿ ನೀವು ಪಾವತಿ ದೃಢೀಕರಿಸುತ್ತೀರಿ.",
     home_eyebrow: "ಗಣೇಶ ಚತುರ್ಥಿ · 2026",
     home_headline: "<span>ಗಣೇಶ</span> ತುಂಬಿದ ರಾಜನಗರಿ.",
     home_lede: "ಗಣೇಶನನ್ನು ಹುಡುಕಿ. ಸಂಭ್ರಮವನ್ನು ಅನುಭವಿಸಿ. ಭಾಗವಾಗಿ.",
@@ -1223,15 +1237,53 @@ const COFFEE_SVG = `<svg viewBox="0 0 120 128" width="104" height="112" role="im
 </svg>`;
 
 let coffeeQty = 1;
+// Build a UPI deep link for a given app scheme and rupee amount.
+function upiHref(scheme, amount) {
+  const q = `pa=${encodeURIComponent(COFFEE_UPI)}&pn=${encodeURIComponent(COFFEE_NAME)}&am=${amount}&cu=INR&tn=${encodeURIComponent("Filter coffee GaneshaTracker")}`;
+  return `${scheme}?${q}`;
+}
+const COFFEE_APPS = [
+  { key: "gpay", label: "Google Pay", scheme: "tez://upi/pay", ic: "🟢" },
+  { key: "phonepe", label: "PhonePe", scheme: "phonepe://pay", ic: "🟣" },
+  { key: "paytm", label: "Paytm", scheme: "paytmmp://pay", ic: "🔵" }
+];
+const isMobile = () => /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || (window.matchMedia && matchMedia("(pointer:coarse)").matches);
+
 function openCoffee() {
   if (document.querySelector("#coffeeOverlay")) return;
   coffeeQty = 1;
   const overlay = document.createElement("div");
   overlay.id = "coffeeOverlay";
   overlay.className = "coffee-overlay";
-  const payHtml = COFFEE_QR
-    ? `${COFFEE_NAME ? `<div class="coffee-name">${esc(COFFEE_NAME)}</div>` : ""}<img class="coffee-qr" src="${COFFEE_QR}" alt="UPI QR code"><div class="coffee-scan">${esc(t("coffee_scan"))}</div>${COFFEE_UPI ? `<div class="coffee-upi">UPI: ${esc(COFFEE_UPI)}</div>` : ""}`
+  const mobile = isMobile();
+  const haveUpi = !!COFFEE_UPI;
+
+  const qrBlock = COFFEE_QR
+    ? `${COFFEE_NAME ? `<div class="coffee-name">${esc(COFFEE_NAME)}</div>` : ""}<img class="coffee-qr" src="${COFFEE_QR}" alt="UPI QR code"><div class="coffee-scan">${esc(t("coffee_scan"))}</div>`
     : `<div class="coffee-qr placeholder"><span>${esc(t("coffee_qr_soon"))}</span></div>`;
+  const upiRow = haveUpi
+    ? `<div class="coffee-upi-row"><span class="coffee-upi">${esc(COFFEE_UPI)}</span><button type="button" class="coffee-copy" data-copy="${esc(COFFEE_UPI)}">${esc(t("coffee_copy"))}</button></div>`
+    : "";
+
+  // Payment area differs for phone vs desktop.
+  let payHtml;
+  if (mobile && haveUpi) {
+    payHtml = `
+      <div class="coffee-apps">
+        <a class="coffee-app primary" data-scheme="upi://pay" href="${upiHref("upi://pay", coffeeQty * COFFEE_PRICE)}">☕ ${esc(t("coffee_pay_any"))} · <strong>₹${coffeeQty * COFFEE_PRICE}</strong></a>
+        <div class="coffee-app-row">
+          ${COFFEE_APPS.map(a => `<a class="coffee-app" data-scheme="${a.scheme}" href="${upiHref(a.scheme, coffeeQty * COFFEE_PRICE)}"><span aria-hidden="true">${a.ic}</span>${esc(a.label)}</a>`).join("")}
+        </div>
+      </div>
+      ${upiRow}
+      <button type="button" class="coffee-qr-toggle" aria-expanded="false">${esc(t("coffee_show_qr"))}</button>
+      <div class="coffee-qrbox" hidden>${qrBlock}</div>`;
+  } else {
+    payHtml = `
+      ${haveUpi ? `<p class="coffee-desktop">${esc(t("coffee_desktop"))}</p>` : ""}
+      <div class="coffee-qrbox open">${qrBlock}${upiRow}</div>`;
+  }
+
   overlay.innerHTML = `
     <div class="coffee-modal" role="dialog" aria-modal="true" aria-label="${esc(t("foot_coffee"))}">
       <button class="coffee-close" aria-label="${esc(t("detail_close"))}">✕</button>
@@ -1239,20 +1291,49 @@ function openCoffee() {
       <h2>${esc(t("coffee_title"))}</h2>
       <p class="coffee-sub">${esc(t("coffee_sub"))}</p>
       <div class="coffee-qty">${COFFEE_QTYS.map(q => `<button type="button" class="coffee-opt${q === coffeeQty ? " active" : ""}" data-qty="${q}"><strong>${q}× ${esc(t("coffee_word"))}</strong><span>₹${q * COFFEE_PRICE}</span></button>`).join("")}</div>
-      <div class="coffee-pay">${payHtml}</div>
       <div class="coffee-total"><strong>₹${coffeeQty * COFFEE_PRICE}</strong> ${esc(t("coffee_selected"))}</div>
+      <div class="coffee-pay">${payHtml}</div>
+      <p class="coffee-note">${esc(t("coffee_note"))}</p>
     </div>`;
   document.body.appendChild(overlay);
+
   const close = () => { overlay.remove(); document.removeEventListener("keydown", onKey); };
   const onKey = e => { if (e.key === "Escape") close(); };
   document.addEventListener("keydown", onKey);
   overlay.addEventListener("click", e => { if (e.target === overlay) close(); });
   overlay.querySelector(".coffee-close").addEventListener("click", close);
+
+  // keep amount + pay links in sync with the chosen quantity
+  const refreshPay = () => {
+    const amt = coffeeQty * COFFEE_PRICE;
+    overlay.querySelector(".coffee-total").innerHTML = `<strong>₹${amt}</strong> ${esc(t("coffee_selected"))}`;
+    overlay.querySelectorAll(".coffee-app").forEach(a => { a.href = upiHref(a.dataset.scheme, amt); });
+    const primary = overlay.querySelector(".coffee-app.primary");
+    if (primary) primary.innerHTML = `☕ ${esc(t("coffee_pay_any"))} · <strong>₹${amt}</strong>`;
+  };
   overlay.querySelectorAll("[data-qty]").forEach(btn => btn.addEventListener("click", () => {
     coffeeQty = Number(btn.dataset.qty);
     overlay.querySelectorAll("[data-qty]").forEach(b => b.classList.toggle("active", b === btn));
-    overlay.querySelector(".coffee-total").innerHTML = `<strong>₹${coffeeQty * COFFEE_PRICE}</strong> ${esc(t("coffee_selected"))}`;
+    refreshPay();
   }));
+
+  const toggle = overlay.querySelector(".coffee-qr-toggle");
+  if (toggle) toggle.addEventListener("click", () => {
+    const box = overlay.querySelector(".coffee-qrbox");
+    const show = box.hasAttribute("hidden");
+    if (show) box.removeAttribute("hidden"); else box.setAttribute("hidden", "");
+    toggle.setAttribute("aria-expanded", String(show));
+    toggle.textContent = show ? t("coffee_hide_qr") : t("coffee_show_qr");
+  });
+
+  const copyBtn = overlay.querySelector(".coffee-copy");
+  if (copyBtn) copyBtn.addEventListener("click", async () => {
+    const val = copyBtn.dataset.copy;
+    try { await navigator.clipboard.writeText(val); }
+    catch { const ta = document.createElement("textarea"); ta.value = val; document.body.appendChild(ta); ta.select(); try { document.execCommand("copy"); } catch {} ta.remove(); }
+    const old = copyBtn.textContent; copyBtn.textContent = "✓ " + t("coffee_copied"); copyBtn.classList.add("done");
+    setTimeout(() => { copyBtn.textContent = old; copyBtn.classList.remove("done"); }, 1600);
+  });
 }
 
 function applyStatic() {
