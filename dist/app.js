@@ -74,7 +74,7 @@ const STR = {
     brand_tag: "MYSURU, TOGETHER.",
     nav_explore: "Explore Ganeshas",
     nav_favourites: "Community favourites",
-    nav_visarjan: "Visarjan",
+    nav_visarjan: "Visarjan tanks",
     vis_eyebrow: "Eco-friendly immersion · 2026",
     vis_headline: "Where to immerse your <span>Ganesha.</span>",
     vis_lede: "Free water tanker vehicles from the City Corporation. Please immerse clay idols in these tankers, not in lakes or wells.",
@@ -111,7 +111,7 @@ const STR = {
     home_eyebrow: "Ganesh Chaturthi · 2026",
     home_headline: "A royal city full of <span>Ganeshas.</span>",
     home_lede: "Find a Ganesha. Feel the celebration. Be part of it.",
-    cn_title: "Namma Mysuru,<br>Namma Ganesha <span aria-hidden=\"true\">♡</span>",
+    cn_title: "Namma Mysuru, Namma Ganesha <span aria-hidden=\"true\">♡</span>",
     search_ph: "Try Kuvempunagar, Devaraja Market, Gokulam...",
     search_aria: "Search Ganeshas",
     type_all: "All Ganeshas",
@@ -227,7 +227,7 @@ const STR = {
     brand_tag: "ಮೈಸೂರು, ಒಟ್ಟಿಗೆ.",
     nav_explore: "ಗಣೇಶಗಳನ್ನು ಅನ್ವೇಷಿಸಿ",
     nav_favourites: "ಸಮುದಾಯದ ಮೆಚ್ಚುಗೆಗಳು",
-    nav_visarjan: "ವಿಸರ್ಜನೆ",
+    nav_visarjan: "ವಿಸರ್ಜನ ಟ್ಯಾಂಕ್‌ಗಳು",
     vis_eyebrow: "ಪರಿಸರ ಸ್ನೇಹಿ ವಿಸರ್ಜನೆ · 2026",
     vis_headline: "ನಿಮ್ಮ <span>ಗಣೇಶನನ್ನು</span> ಎಲ್ಲಿ ವಿಸರ್ಜಿಸಬೇಕು.",
     vis_lede: "ಪಾಲಿಕೆಯಿಂದ ಉಚಿತ ನೀರಿನ ಟ್ಯಾಂಕರ್ ವಾಹನಗಳು. ಮಣ್ಣಿನ ಮೂರ್ತಿಗಳನ್ನು ಕೆರೆ ಅಥವಾ ಬಾವಿಗಳಲ್ಲಿ ಅಲ್ಲ, ಈ ಟ್ಯಾಂಕರ್‌ಗಳಲ್ಲೇ ವಿಸರ್ಜಿಸಿ.",
@@ -264,7 +264,7 @@ const STR = {
     home_eyebrow: "ಗಣೇಶ ಚತುರ್ಥಿ · 2026",
     home_headline: "<span>ಗಣೇಶ</span> ತುಂಬಿದ ರಾಜನಗರಿ.",
     home_lede: "ಗಣೇಶನನ್ನು ಹುಡುಕಿ. ಸಂಭ್ರಮವನ್ನು ಅನುಭವಿಸಿ. ಭಾಗವಾಗಿ.",
-    cn_title: "ನಮ್ಮ ಮೈಸೂರು,<br>ನಮ್ಮ ಗಣೇಶ <span aria-hidden=\"true\">♡</span>",
+    cn_title: "ನಮ್ಮ ಮೈಸೂರು, ನಮ್ಮ ಗಣೇಶ <span aria-hidden=\"true\">♡</span>",
     search_ph: "ಕುವೆಂಪುನಗರ, ದೇವರಾಜ ಮಾರುಕಟ್ಟೆ, ಗೋಕುಲಂ ಪ್ರಯತ್ನಿಸಿ...",
     search_aria: "ಗಣೇಶಗಳನ್ನು ಹುಡುಕಿ",
     type_all: "ಎಲ್ಲಾ ಗಣೇಶಗಳು",
@@ -1355,6 +1355,7 @@ function render() {
   if (formMap) { formMap.remove(); formMap = null; }
   markers = [];
   cluster = null;
+  document.body.classList.toggle("on-add", location.pathname.startsWith("/add"));
   if (location.pathname.startsWith("/add")) renderAdd();
   else if (location.pathname.startsWith("/leaderboard")) renderLeaderboard();
   else renderHome();
